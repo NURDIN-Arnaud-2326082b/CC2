@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.Response;
 @ApplicationScoped
 public class BookResource {
 
+
     /**
      * Service utilisé pour accéder aux données des livres et récupérer/modifier leurs informations
      */
