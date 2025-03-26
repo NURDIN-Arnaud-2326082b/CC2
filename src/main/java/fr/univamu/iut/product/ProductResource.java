@@ -1,4 +1,4 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.product;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -10,32 +10,32 @@ import jakarta.ws.rs.core.Response;
  * Ressource associée aux livres
  * (point d'accès de l'API REST)
  */
-@Path("/books")
+@Path("/products")
 @ApplicationScoped
-public class BookResource {
+public class ProductResource {
 
     /**
      * Service utilisé pour accéder aux données des livres et récupérer/modifier leurs informations
      */
-    private BookService service;
+    private ProductService service;
 
     /**
      * Constructeur par défaut
      */
-    public BookResource(){}
+    public ProductResource(){}
 
     /**
      * Constructeur permettant d'initialiser le service avec une interface d'accès aux données
      * @param bookRepo objet implémentant l'interface d'accès aux données
      */
-    public @Inject BookResource( BookRepositoryInterface bookRepo ){
-        this.service = new BookService( bookRepo) ;
+    public @Inject ProductResource(ProductRepositoryInterface bookRepo ){
+        this.service = new ProductService( bookRepo) ;
     }
 
     /**
      * Constructeur permettant d'initialiser le service d'accès aux livres
      */
-    public BookResource( BookService service ){
+    public ProductResource(ProductService service ){
         this.service = service;
     }
 
@@ -45,7 +45,7 @@ public class BookResource {
      */
     @GET
     @Produces("application/json")
-    public String getAllBooks() {
+    public String getAllProducts() {
         return service.getAllBooksJSON();
     }
 
@@ -57,7 +57,7 @@ public class BookResource {
     @GET
     @Path("{reference}")
     @Produces("application/json")
-    public String getBook( @PathParam("reference") String reference){
+    public String getProduct(@PathParam("reference") String reference){
 
         String result = service.getBookJSON(reference);
 
@@ -72,16 +72,16 @@ public class BookResource {
      * Endpoint permettant de mettre à jours le statut d'un livre uniquement
      * (la requête patch doit fournir le nouveau statut sur livre, les autres informations sont ignorées)
      * @param reference la référence du livre dont il faut changer le statut
-     * @param book le livre transmis en HTTP au format JSON et convertit en objet Book
+     * @param product le livre transmis en HTTP au format JSON et convertit en objet Book
      * @return une réponse "updated" si la mise à jour a été effectuée, une erreur NotFound sinon
      */
     @PUT
     @Path("{reference}")
     @Consumes("application/json")
-    public Response updateBook(@PathParam("reference") String reference, Book book ){
+    public Response updateProduct(@PathParam("reference") String reference, Product product){
 
         // si le livre n'a pas été trouvé
-        if( ! service.updateBook(reference, book) )
+        if( ! service.updateBook(reference, product) )
             throw new NotFoundException();
         else
             return Response.ok("updated").build();

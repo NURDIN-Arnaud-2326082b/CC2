@@ -1,4 +1,4 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.product;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Disposes;
@@ -18,11 +18,11 @@ public class BookApplication extends Application {
      *          pour accéder aux données des livres, voire les modifier
      */
     @Produces
-    private BookRepositoryInterface openDbConnection(){
-        BookRepositoryMariadb db = null;
+    private ProductRepositoryInterface openDbConnection(){
+        ProductsRepositoryMariadb db = null;
 
         try{
-            db = new BookRepositoryMariadb("jdbc:mariadb://mysql-cc2.alwaysdata.net/cc2_library_db", "cc2_library", "cc2r401");
+            db = new ProductsRepositoryMariadb("jdbc:mariadb://mysql-cc2.alwaysdata.net/cc2_library_db", "cc2_library", "cc2r401");
         }
         catch (Exception e){
             System.err.println(e.getMessage());
@@ -34,7 +34,7 @@ public class BookApplication extends Application {
      * Méthode permettant de fermer la connexion à la base de données lorsque l'application est arrêtée
      * @param bookRepo la connexion à la base de données instanciée dans la méthode @openDbConnection
      */
-    private void closeDbConnection(@Disposes BookRepositoryInterface bookRepo ) {
+    private void closeDbConnection(@Disposes ProductRepositoryInterface bookRepo ) {
         bookRepo.close();
     }
 }
