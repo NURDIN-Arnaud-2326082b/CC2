@@ -1,11 +1,11 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.CC2;
 
 import java.util.*;
 
 /**
  * Interface d'accès aux données des livres
  */
-public interface BookRepositoryInterface {
+public interface PanierRepositoryInterface {
 
     /**
      *  Méthode fermant le dépôt où sont stockées les informations sur les livres
@@ -17,13 +17,13 @@ public interface BookRepositoryInterface {
      * @param reference identifiant du livre recherché
      * @return un objet Book représentant le livre recherché
      */
-    public Book getBook( String reference );
+    public Panier getBook(String reference );
 
     /**
      * Méthode retournant la liste des livres
      * @return une liste d'objets livres
      */
-    public ArrayList<Book> getAllBooks() ;
+    public ArrayList<Panier> getAllBooks() ;
 
     /**
      * Méthode permettant de mettre à jours un livre enregistré

@@ -1,4 +1,4 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.CC2;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -9,18 +9,18 @@ import java.util.ArrayList;
  * Classe utilisée pour récupérer les informations nécessaires à la ressource
  * (permet de dissocier ressource et mode d'éccès aux données)
  */
-public class BookService {
+public class PanierService {
 
     /**
      * Objet permettant d'accéder au dépôt où sont stockées les informations sur les livres
      */
-    protected BookRepositoryInterface bookRepo ;
+    protected PanierRepositoryInterface bookRepo ;
 
     /**
      * Constructeur permettant d'injecter l'accès aux données
      * @param bookRepo objet implémentant l'interface d'accès aux données
      */
-    public  BookService( BookRepositoryInterface bookRepo) {
+    public PanierService(PanierRepositoryInterface bookRepo) {
         this.bookRepo = bookRepo;
     }
 
@@ -30,12 +30,12 @@ public class BookService {
      */
     public String getAllBooksJSON(){
 
-        ArrayList<Book> allBooks = bookRepo.getAllBooks();
+        ArrayList<Panier> allPaniers = bookRepo.getAllBooks();
 
         // création du json et conversion de la liste de livres
         String result = null;
         try( Jsonb jsonb = JsonbBuilder.create()){
-            result = jsonb.toJson(allBooks);
+            result = jsonb.toJson(allPaniers);
         }
         catch (Exception e){
             System.err.println( e.getMessage() );
@@ -51,14 +51,14 @@ public class BookService {
      */
     public String getBookJSON( String reference ){
         String result = null;
-        Book myBook = bookRepo.getBook(reference);
+        Panier myPanier = bookRepo.getBook(reference);
 
         // si le livre a été trouvé
-        if( myBook != null ) {
+        if( myPanier != null ) {
 
             // création du json et conversion du livre
             try (Jsonb jsonb = JsonbBuilder.create()) {
-                result = jsonb.toJson(myBook);
+                result = jsonb.toJson(myPanier);
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
@@ -69,10 +69,10 @@ public class BookService {
     /**
      * Méthode permettant de mettre à jours les informations d'un livre
      * @param reference référence du livre à mettre à jours
-     * @param book les nouvelles infromations a été utiliser
+     * @param panier les nouvelles infromations a été utiliser
      * @return true si le livre a pu être mis à jours
      */
-    public boolean updateBook(String reference, Book book) {
-        return bookRepo.updateBook(reference, book.title, book.authors, book.status);
+    public boolean updateBook(String reference, Panier panier) {
+        return bookRepo.updateBook(reference, panier.title, panier.authors, panier.status);
     }
 }

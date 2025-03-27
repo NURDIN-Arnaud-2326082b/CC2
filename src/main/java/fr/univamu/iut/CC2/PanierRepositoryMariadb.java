@@ -1,4 +1,4 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.CC2;
 
 import java.io.Closeable;
 import java.sql.*;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Classe permettant d'accèder aux livres stockés dans une base de données Mariadb
  */
-public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeable {
+public class PanierRepositoryMariadb implements PanierRepositoryInterface, Closeable {
 
     /**
      * Accès à la base de données (session)
@@ -21,7 +21,7 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
      * @param user chaîne de caractères contenant l'identifiant de connexion à la base de données
      * @param pwd chaîne de caractères contenant le mot de passe à utiliser
      */
-    public BookRepositoryMariadb(String infoConnection, String user, String pwd ) throws java.sql.SQLException, java.lang.ClassNotFoundException {
+    public PanierRepositoryMariadb(String infoConnection, String user, String pwd ) throws java.sql.SQLException, java.lang.ClassNotFoundException {
         Class.forName("org.mariadb.jdbc.Driver");
         dbConnection = DriverManager.getConnection( infoConnection, user, pwd ) ;
     }
@@ -37,9 +37,9 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
     }
 
     @Override
-    public Book getBook(String reference) {
+    public Panier getBook(String reference) {
 
-        Book selectedBook = null;
+        Panier selectedPanier = null;
 
         String query = "SELECT * FROM Book WHERE reference=?";
 
@@ -59,18 +59,18 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
                 char status = result.getString("status").charAt(0);
 
                 // création et initialisation de l'objet Book
-                selectedBook = new Book(reference, title, authors);
-                selectedBook.setStatus(status);
+                selectedPanier = new Panier(reference, title, authors);
+                selectedPanier.setStatus(status);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return selectedBook;
+        return selectedPanier;
     }
 
     @Override
-    public ArrayList<Book> getAllBooks() {
-        ArrayList<Book> listBooks ;
+    public ArrayList<Panier> getAllBooks() {
+        ArrayList<Panier> listPaniers;
 
         String query = "SELECT * FROM Book";
 
@@ -79,7 +79,7 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
             // exécution de la requête
             ResultSet result = ps.executeQuery();
 
-            listBooks = new ArrayList<>();
+            listPaniers = new ArrayList<>();
 
             // récupération du premier (et seul) tuple résultat
             while ( result.next() )
@@ -90,15 +90,15 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
                 char status = result.getString("status").charAt(0);
 
                 // création du livre courant
-                Book currentBook = new Book(reference, title, authors);
-                currentBook.setStatus(status);
+                Panier currentPanier = new Panier(reference, title, authors);
+                currentPanier.setStatus(status);
 
-                listBooks.add(currentBook);
+                listPaniers.add(currentPanier);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listBooks;
+        return listPaniers;
     }
 
     @Override

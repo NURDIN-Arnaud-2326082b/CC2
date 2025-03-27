@@ -1,9 +1,9 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.CC2;
 
 /**
  * Classe représentant un livre
  */
-public class Book {
+public class Panier {
 
     /**
      * Référence du livre
@@ -29,7 +29,7 @@ public class Book {
     /**
      * Constructeur par défaut
      */
-    public Book(){
+    public Panier(){
     }
 
     /**
@@ -38,7 +38,7 @@ public class Book {
      * @param title titre du livre
      * @param authors auteurs du livre
      */
-    public Book(String reference, String title, String authors){
+    public Panier(String reference, String title, String authors){
         this.reference = reference;
         this.title = title;
         this.authors = authors;
