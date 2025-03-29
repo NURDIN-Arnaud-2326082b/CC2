@@ -8,17 +8,17 @@ public class Panier {
     /**
      * Référence du livre
      */
-    protected String reference;
+    protected int IdPanier;
 
     /**
      * titre du livre
      */
-    protected String title;
+    protected int nbreArticle;
 
     /**
      * Auteurs du livre
      */
-    protected String authors;
+    protected String nomArticle;
 
     /**
      * Statut du livre
@@ -34,14 +34,14 @@ public class Panier {
 
     /**
      * Constructeur de livre
-     * @param reference référence du livre
-     * @param title titre du livre
-     * @param authors auteurs du livre
+     * @param IdPanier référence du livre
+     * @param nbreArticle titre du livre
+     * @param nomArticle auteurs du livre
      */
-    public Panier(String reference, String title, String authors){
-        this.reference = reference;
-        this.title = title;
-        this.authors = authors;
+    public Panier(int IdPanier, int nbreArticle, String nomArticle){
+        this.IdPanier = IdPanier;
+        this.nbreArticle = nbreArticle;
+        this.nomArticle = nomArticle;
         this.status = 'd';
     }
 
@@ -49,24 +49,24 @@ public class Panier {
      * Méthode permettant d'accéder à la réference du livre
      * @return un chaîne de caractères avec la référence du livre
      */
-    public String getReference() {
-        return reference;
+    public int getIdPanier() {
+        return IdPanier;
     }
 
     /**
      * Méthode permettant d'accéder au titre du livre
      * @return un chaîne de caractères avec le titre du livre
      */
-    public String getTitle() {
-        return title;
+    public int getNbreArticle() {
+        return nbreArticle;
     }
 
     /**
      * Méthode permettant d'accéder aux auteurs du livre
      * @return un chaîne de caractères avec la liste des auteurs
      */
-    public String getAuthors() {
-        return authors;
+    public String getNomArticle() {
+        return nomArticle;
     }
 
     /**
@@ -79,26 +79,26 @@ public class Panier {
 
     /**
      * Méthode permettant de modifier la référence du livre
-     * @param reference une chaîne de caractères avec la référence à utiliser
+     * @param IdPanier une chaîne de caractères avec la référence à utiliser
      */
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void IdPanier(int IdPanier) {
+        this.IdPanier = IdPanier;
     }
 
     /**
      * Méthode permettant de modifier le titre du livre
-     * @param title une chaîne de caractères avec le titre à utiliser
+     * @param nbreArticle une chaîne de caractères avec le titre à utiliser
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setNbreArticle(int nbreArticle) {
+        this.nbreArticle = nbreArticle;
     }
 
     /**
      * Méthode permettant de modifier les autheurs du livre
-     * @param authors une chaîne de caractères avec la liste des auteurs
+     * @param nomArticle une chaîne de caractères avec la liste des auteurs
      */
-    public void setAuthors(String authors) {
-        this.authors = authors;
+    public void setNomArticle(String nomArticle) {
+        this.nomArticle = nomArticle;
     }
 
     /**
@@ -112,9 +112,9 @@ public class Panier {
     @Override
     public String toString() {
         return "Livre{" +
-                "reference='" + reference + '\'' +
-                ", titre='" + title + '\'' +
-                ", auteurs='" + authors + '\'' +
+                "IdPanier='" + IdPanier + '\'' +
+                ", nbreArticle='" + nbreArticle + '\'' +
+                ", nomArticle='" + nomArticle + '\'' +
                 ", statut=" + status +
                 '}';
     }

@@ -24,15 +24,15 @@ public class PanierResource {
 
     @GET
     @Produces("application/json")
-    public String getAllBooks() {
-        return service.getAllBooksJSON();
+    public String getAllPanier() {
+        return service.getAllPanierJSON();
     }
 
     @GET
-    @Path("{reference}")
+    @Path("{IdPanier}")
     @Produces("application/json")
-    public String getBook(@PathParam("reference") String reference) {
-        String result = service.getBookJSON(reference);
+    public String getPanier(@PathParam("IdPanier") int IdPanier) {
+        String result = service.getPanierJSON(IdPanier);
         if (result == null) {
             throw new NotFoundException();
         }
@@ -40,10 +40,10 @@ public class PanierResource {
     }
 
     @PUT
-    @Path("{reference}")
+    @Path("{IdPanier}")
     @Consumes("application/json")
-    public Response updateBook(@PathParam("reference") String reference, Panier panier) {
-        if (!service.updateBook(reference, panier)) {
+    public Response updateBook(@PathParam("IdPanier") int IdPanier, Panier panier) {
+        if (!service.updatePanier(IdPanier, panier)) {
             throw new NotFoundException();
         } else {
             return Response.ok("updated").build();

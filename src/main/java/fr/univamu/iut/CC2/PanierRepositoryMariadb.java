@@ -37,42 +37,20 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
     }
 
     @Override
-    public Panier getBook(String reference) {
+    public Panier getIdPanier(String IdPanier) {
+        return null;
+    }
 
-        Panier selectedPanier = null;
 
-        String query = "SELECT * FROM Book WHERE reference=?";
-
-        // construction et exécution d'une requête préparée
-        try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
-            ps.setString(1, reference);
-
-            // exécution de la requête
-            ResultSet result = ps.executeQuery();
-
-            // récupération du premier (et seul) tuple résultat
-            // (si la référence du livre est valide)
-            if( result.next() )
-            {
-                String title = result.getString("title");
-                String authors = result.getString("authors");
-                char status = result.getString("status").charAt(0);
-
-                // création et initialisation de l'objet Book
-                selectedPanier = new Panier(reference, title, authors);
-                selectedPanier.setStatus(status);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return selectedPanier;
+    public Panier getPanier(int IdPanier) {
+        return null;
     }
 
     @Override
-    public ArrayList<Panier> getAllBooks() {
+    public ArrayList<Panier> getAllPanier() {
         ArrayList<Panier> listPaniers;
 
-        String query = "SELECT * FROM Book";
+        String query = "SELECT * FROM panier";
 
         // construction et exécution d'une requête préparée
         try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
@@ -84,13 +62,13 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
             // récupération du premier (et seul) tuple résultat
             while ( result.next() )
             {
-                String reference = result.getString("reference");
-                String title = result.getString("title");
-                String authors = result.getString("authors");
+                int IdPanier = result.getInt("IdPanier");
+                int nbreArticle = result.getInt("nbreArticle");
+                String nomArticle = result.getString("nomArticle");
                 char status = result.getString("status").charAt(0);
 
                 // création du livre courant
-                Panier currentPanier = new Panier(reference, title, authors);
+                Panier currentPanier = new Panier(IdPanier, nbreArticle, nomArticle);
                 currentPanier.setStatus(status);
 
                 listPaniers.add(currentPanier);
@@ -102,16 +80,54 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
     }
 
     @Override
-    public boolean updateBook(String reference, String title, String authors, char status) {
-        String query = "UPDATE Book SET title=?, authors=?, status=?  where reference=?";
+    public boolean UpdatePanier(int IdPanier, int nbreArticle, String nomArticle, char status) {
+        return false;
+    }
+
+
+    public Panier getIdPanier(int IdPanier) {
+
+        Panier selectedPanier = null;
+
+        String query = "SELECT * FROM Book WHERE reference=?";
+
+        // construction et exécution d'une requête préparée
+        try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
+            ps.setInt(1, IdPanier);
+
+            // exécution de la requête
+            ResultSet result = ps.executeQuery();
+
+            // récupération du premier (et seul) tuple résultat
+            // (si la référence du livre est valide)
+            if( result.next() )
+            {
+                int nbreArticle = result.getInt("nbreArticle");
+                String nomArticle = result.getString("nomArticle");
+                char status = result.getString("status").charAt(0);
+
+                // création et initialisation de l'objet Book
+                selectedPanier = new Panier(IdPanier, nbreArticle, nomArticle);
+                selectedPanier.setStatus(status);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return selectedPanier;
+    }
+
+
+
+    public boolean updatePanier(int IdPanier, int nbreArticle, String nomArticle, char status) {
+        String query = "UPDATE Book SET nomArticle=?, authors=?, status=?  where reference=?";
         int nbRowModified = 0;
 
         // construction et exécution d'une requête préparée
         try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
-            ps.setString(1, title);
-            ps.setString(2, authors);
+            ps.setInt(1, IdPanier);
+            ps.setString(2, nomArticle);
             ps.setString(3, String.valueOf(status) );
-            ps.setString(4, reference);
+            ps.setInt(4, nbreArticle);
 
             // exécution de la requête
             nbRowModified = ps.executeUpdate();

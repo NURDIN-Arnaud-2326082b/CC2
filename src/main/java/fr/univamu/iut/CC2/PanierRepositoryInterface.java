@@ -14,25 +14,27 @@ public interface PanierRepositoryInterface {
 
     /**
      * Méthode retournant le livre dont la référence est passée en paramètre
-     * @param reference identifiant du livre recherché
+     * @param IdPanier identifiant du livre recherché
      * @return un objet Book représentant le livre recherché
      */
-    public Panier getBook(String reference );
+    public Panier getPanier(int IdPanier );
 
     /**
      * Méthode retournant la liste des livres
      * @return une liste d'objets livres
      */
-    public ArrayList<Panier> getAllBooks() ;
+    public ArrayList<Panier> getAllPanier() ;
 
     /**
      * Méthode permettant de mettre à jours un livre enregistré
-     * @param reference identifiant du livre à mettre à jours
-     * @param title nouveau titre du livre
-     * @param authors nouvelle liste d'auteurs
+     * @param IdPanier identifiant du livre à mettre à jours
+     * @param nbreArticle nouveau titre du livre
+     * @param nomArticle nouvelle liste d'auteurs
      * @param status nouveau status du livre
      * @return true si le livre existe et la mise à jours a été faite, false sinon
      */
-    public boolean updateBook( String reference, String title, String authors, char status);
+    public boolean UpdatePanier( int IdPanier, int nbreArticle, String nomArticle, char status);
+
+
 }
 
