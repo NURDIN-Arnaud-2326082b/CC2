@@ -4,121 +4,140 @@ import java.io.Closeable;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * Classe permettant d'accèder aux livres stockés dans une base de données Mariadb
- */
 public class CommandesRepositoryMariadb implements CommandesRepositoryInterface, Closeable {
 
-    /**
-     * Accès à la base de données (session)
-     */
-    protected Connection dbConnection ;
+    protected Connection dbConnection;
 
-    /**
-     * Constructeur de la classe
-     * @param infoConnection chaîne de caractères avec les informations de connexion
-     *                       (p.ex. jdbc:mariadb://mysql-[compte].alwaysdata.net/[compte]_library_db
-     * @param user chaîne de caractères contenant l'identifiant de connexion à la base de données
-     * @param pwd chaîne de caractères contenant le mot de passe à utiliser
-     */
-    public CommandesRepositoryMariadb(String infoConnection, String user, String pwd ) throws java.sql.SQLException, java.lang.ClassNotFoundException {
+    public CommandesRepositoryMariadb(String infoConnection, String user, String pwd) throws SQLException, ClassNotFoundException {
         Class.forName("org.mariadb.jdbc.Driver");
-        dbConnection = DriverManager.getConnection( infoConnection, user, pwd ) ;
+        dbConnection = DriverManager.getConnection(infoConnection, user, pwd);
     }
 
     @Override
     public void close() {
-        try{
+        try {
             dbConnection.close();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
     }
 
     @Override
-    public Commandes getCommandes(String reference) {
+    public Commandes getCommande(int id_commande) {
+        Commandes selectedCommande = null;
+        String query = "SELECT * FROM Commandes WHERE id_commande=?";
 
-        Commandes selectedCommandes = null;
-
-        String query = "SELECT * FROM Commandes WHERE reference=?";
-
-        // construction et exécution d'une requête préparée
-        try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
-            ps.setString(1, reference);
-
-            // exécution de la requête
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setInt(1, id_commande);
             ResultSet result = ps.executeQuery();
 
-            // récupération du premier (et seul) tuple résultat
-            // (si la référence du livre est valide)
-            if( result.next() )
-            {
-                String title = result.getString("title");
-                String authors = result.getString("authors");
-                char status = result.getString("status").charAt(0);
+            if (result.next()) {
+                int id_abonne = result.getInt("id_abonne");
+                int id_panier = result.getInt("id_panier");
+                double prix_total = result.getDouble("prix_total");
+                String date_commande = result.getString("date_commande");
+                String date_retrait = result.getString("date_retrait");
+                String localisation_retrait = result.getString("localisation_retrait");
+                String statut = result.getString("statut");
+                String moyen_paiement = result.getString("moyen_paiement");
 
-                // création et initialisation de l'objet Commandes
-                selectedCommandes = new Commandes(reference, title, authors);
-                selectedCommandes.setStatus(status);
+                selectedCommande = new Commandes(id_commande, id_abonne, id_panier, prix_total, date_commande, date_retrait, localisation_retrait, statut, moyen_paiement);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return selectedCommandes;
+        return selectedCommande;
     }
 
     @Override
-    public ArrayList<Commandes> getAllCommandess() {
-        ArrayList<Commandes> listCommandess ;
-
+    public ArrayList<Commandes> getAllCommandes() {
+        ArrayList<Commandes> listCommandes = new ArrayList<>();
         String query = "SELECT * FROM Commandes";
 
-        // construction et exécution d'une requête préparée
-        try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
-            // exécution de la requête
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
             ResultSet result = ps.executeQuery();
 
-            listCommandess = new ArrayList<>();
+            while (result.next()) {
+                int id_commande = result.getInt("id_commande");
+                int id_abonne = result.getInt("id_abonne");
+                int id_panier = result.getInt("id_panier");
+                double prix_total = result.getDouble("prix_total");
+                String date_commande = result.getString("date_commande");
+                String date_retrait = result.getString("date_retrait");
+                String localisation_retrait = result.getString("localisation_retrait");
+                String statut = result.getString("statut");
+                String moyen_paiement = result.getString("moyen_paiement");
 
-            // récupération du premier (et seul) tuple résultat
-            while ( result.next() )
-            {
-                String reference = result.getString("reference");
-                String title = result.getString("title");
-                String authors = result.getString("authors");
-                char status = result.getString("status").charAt(0);
+                Commandes currentCommande = new Commandes(id_commande, id_abonne, id_panier, prix_total, date_commande, date_retrait, localisation_retrait, statut, moyen_paiement);
 
-                // création du livre courant
-                Commandes currentCommandes = new Commandes(reference, title, authors);
-                currentCommandes.setStatus(status);
-
-                listCommandess.add(currentCommandes);
+                listCommandes.add(currentCommande);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listCommandess;
+        return listCommandes;
     }
 
     @Override
-    public boolean updateCommandes(String reference, String title, String authors, char status) {
-        String query = "UPDATE Commandes SET title=?, authors=?, status=?  where reference=?";
+    public boolean updateCommande(int id_commande, int id_abonne, int id_panier, double prix_total, String date_commande, String date_retrait, String localisation_retrait, String statut, String moyen_paiement) {
+        String query = "UPDATE Commandes SET id_abonne=?, id_panier=?, prix_total=?, date_commande=?, date_retrait=?, localisation_retrait=?, statut=?, moyen_paiement=? WHERE id_commande=?";
         int nbRowModified = 0;
 
-        // construction et exécution d'une requête préparée
-        try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
-            ps.setString(1, title);
-            ps.setString(2, authors);
-            ps.setString(3, String.valueOf(status) );
-            ps.setString(4, reference);
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setInt(1, id_abonne);
+            ps.setInt(2, id_panier);
+            ps.setDouble(3, prix_total);
+            ps.setString(4, date_commande);
+            ps.setString(5, date_retrait);
+            ps.setString(6, localisation_retrait);
+            ps.setString(7, statut);
+            ps.setString(8, moyen_paiement);
+            ps.setInt(9, id_commande);
 
-            // exécution de la requête
             nbRowModified = ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return ( nbRowModified != 0 );
+        return (nbRowModified != 0);
+    }
+
+    @Override
+    public boolean createCommande(Commandes commande) {
+        String query = "INSERT INTO Commandes (id_commande, id_abonne, id_panier, prix_total, date_commande, date_retrait, localisation_retrait, statut, moyen_paiement) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        int nbRowModified = 0;
+
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setInt(1, commande.getId_commande());
+            ps.setInt(2, commande.getId_abonne());
+            ps.setInt(3, commande.getId_panier());
+            ps.setDouble(4, commande.getPrix_total());
+            ps.setString(5, commande.getDate_commande());
+            ps.setString(6, commande.getDate_retrait());
+            ps.setString(7, commande.getLocalisation_retrait());
+            ps.setString(8, commande.getStatut());
+            ps.setString(9, commande.getMoyen_paiement());
+
+            nbRowModified = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return (nbRowModified != 0);
+    }
+
+    @Override
+    public boolean deleteCommande(int id_commande) {
+        String query = "DELETE FROM Commandes WHERE id_commande=?";
+        int nbRowModified = 0;
+
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setInt(1, id_commande);
+            nbRowModified = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return (nbRowModified != 0);
     }
 }

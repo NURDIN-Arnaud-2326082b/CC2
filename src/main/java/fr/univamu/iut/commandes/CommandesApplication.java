@@ -15,14 +15,14 @@ public class CommandesApplication extends Application {
      * Méthode appelée par l'API CDI pour injecter la connection à la base de données au moment de la création
      * de la ressource
      * @return un objet implémentant l'interface CommandesRepositoryInterface utilisée
-     *          pour accéder aux données des livres, voire les modifier
+     *          pour accéder aux données des commandes
      */
     @Produces
     private CommandesRepositoryInterface openDbConnection(){
         CommandesRepositoryMariadb db = null;
 
         try{
-            db = new CommandesRepositoryMariadb("jdbc:mariadb://mysql-cc2.alwaysdata.net/cc2_library_db", "cc2_library", "cc2r401");
+            db = new CommandesRepositoryMariadb("jdbc:mariadb://mysql-vernagut.alwaysdata.net:3306/vernagut_cooperative_agricole", "vernagut_cc2", "cooperative_agricole");
         }
         catch (Exception e){
             System.err.println(e.getMessage());

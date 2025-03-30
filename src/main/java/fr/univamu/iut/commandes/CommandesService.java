@@ -4,61 +4,31 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import java.util.ArrayList;
 
-
-/**
- * Classe utilisée pour récupérer les informations nécessaires à la ressource
- * (permet de dissocier ressource et mode d'éccès aux données)
- */
 public class CommandesService {
 
-    /**
-     * Objet permettant d'accéder au dépôt où sont stockées les informations sur les livres
-     */
-    protected CommandesRepositoryInterface CommandesRepo ;
+    protected CommandesRepositoryInterface commandesRepo;
 
-    /**
-     * Constructeur permettant d'injecter l'accès aux données
-     * @param CommandesRepo objet implémentant l'interface d'accès aux données
-     */
-    public CommandesService(CommandesRepositoryInterface CommandesRepo) {
-        this.CommandesRepo = CommandesRepo;
+    public CommandesService(CommandesRepositoryInterface commandesRepo) {
+        this.commandesRepo = commandesRepo;
     }
 
-    /**
-     * Méthode retournant les informations sur les livres au format JSON
-     * @return une chaîne de caractère contenant les informations au format JSON
-     */
-    public String getAllCommandessJSON(){
-
-        ArrayList<Commandes> allCommandess = CommandesRepo.getAllCommandess();
-
-        // création du json et conversion de la liste de livres
+    public String getAllCommandesJSON() {
+        ArrayList<Commandes> allCommandes = commandesRepo.getAllCommandes();
         String result = null;
-        try( Jsonb jsonb = JsonbBuilder.create()){
-            result = jsonb.toJson(allCommandess);
+        try (Jsonb jsonb = JsonbBuilder.create()) {
+            result = jsonb.toJson(allCommandes);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-        catch (Exception e){
-            System.err.println( e.getMessage() );
-        }
-
         return result;
     }
 
-    /**
-     * Méthode retournant au format JSON les informations sur un livre recherché
-     * @param reference la référence du livre recherché
-     * @return une chaîne de caractère contenant les informations au format JSON
-     */
-    public String getCommandesJSON( String reference ){
+    public String getCommandeJSON(int id_commande) {
         String result = null;
-        Commandes myCommandes = CommandesRepo.getCommandes(reference);
-
-        // si le livre a été trouvé
-        if( myCommandes != null ) {
-
-            // création du json et conversion du livre
+        Commandes commande = commandesRepo.getCommande(id_commande);
+        if (commande != null) {
             try (Jsonb jsonb = JsonbBuilder.create()) {
-                result = jsonb.toJson(myCommandes);
+                result = jsonb.toJson(commande);
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
@@ -66,13 +36,15 @@ public class CommandesService {
         return result;
     }
 
-    /**
-     * Méthode permettant de mettre à jours les informations d'un livre
-     * @param reference référence du livre à mettre à jours
-     * @param Commandes les nouvelles infromations a été utiliser
-     * @return true si le livre a pu être mis à jours
-     */
-    public boolean updateCommandes(String reference, Commandes Commandes) {
-        return CommandesRepo.updateCommandes(reference, Commandes.title, Commandes.authors, Commandes.status);
+    public boolean updateCommande(int id_commande, Commandes commande) {
+        return commandesRepo.updateCommande(id_commande, commande.getId_abonne(), commande.getId_panier(), commande.getPrix_total(), commande.getDate_commande(), commande.getDate_retrait(), commande.getLocalisation_retrait(), commande.getStatut(), commande.getMoyen_paiement());
+    }
+
+    public boolean createCommande(Commandes commande) {
+        return commandesRepo.createCommande(commande);
+    }
+
+    public boolean deleteCommande(int id_commande) {
+        return commandesRepo.deleteCommande(id_commande);
     }
 }

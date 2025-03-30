@@ -1,37 +1,18 @@
 package fr.univamu.iut.commandes;
 
-import java.util.*;
+import java.util.ArrayList;
 
-/**
- * Interface d'accès aux données des livres
- */
 public interface CommandesRepositoryInterface {
 
-    /**
-     *  Méthode fermant le dépôt où sont stockées les informations sur les livres
-     */
-    public void close();
+    void close();
 
-    /**
-     * Méthode retournant le livre dont la référence est passée en paramètre
-     * @param reference identifiant du livre recherché
-     * @return un objet Commandes représentant le livre recherché
-     */
-    public Commandes getCommandes( String reference );
+    Commandes getCommande(int id_commande);
 
-    /**
-     * Méthode retournant la liste des livres
-     * @return une liste d'objets livres
-     */
-    public ArrayList<Commandes> getAllCommandess() ;
+    ArrayList<Commandes> getAllCommandes();
 
-    /**
-     * Méthode permettant de mettre à jours un livre enregistré
-     * @param reference identifiant du livre à mettre à jours
-     * @param title nouveau titre du livre
-     * @param authors nouvelle liste d'auteurs
-     * @param status nouveau status du livre
-     * @return true si le livre existe et la mise à jours a été faite, false sinon
-     */
-    public boolean updateCommandes( String reference, String title, String authors, char status);
+    boolean updateCommande(int id_commande, int id_abonne, int id_panier, double prix_total, String date_commande, String date_retrait, String localisation_retrait, String statut, String moyen_paiement);
+
+    boolean createCommande(Commandes commande);
+
+    boolean deleteCommande(int id_commande);
 }
