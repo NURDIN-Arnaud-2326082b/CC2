@@ -1,7 +1,7 @@
 package fr.univamu.iut.commandes;
 
 /**
- * Classe reprÃ©sentant une commande
+ * Classe représentant une commande
  */
 public class Commandes {
 
