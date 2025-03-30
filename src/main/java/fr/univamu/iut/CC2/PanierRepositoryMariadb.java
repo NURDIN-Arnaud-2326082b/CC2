@@ -36,11 +36,7 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
         }
     }
 
-    @Override
-    public Panier getIdPanier(String IdPanier) {
-        return null;
-    }
-
+   
 
     public Panier getPanier(int IdPanier) {
         return null;
@@ -65,11 +61,11 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
                 int IdPanier = result.getInt("IdPanier");
                 int nbreArticle = result.getInt("nbreArticle");
                 String nomArticle = result.getString("nomArticle");
-                char status = result.getString("status").charAt(0);
+                int IdClient = result.getInt("IdClient");
 
                 // création du livre courant
-                Panier currentPanier = new Panier(IdPanier, nbreArticle, nomArticle);
-                currentPanier.setStatus(status);
+                Panier currentPanier = new Panier(IdPanier, nbreArticle, nomArticle,IdClient);
+                currentPanier.setIdClient(IdClient);
 
                 listPaniers.add(currentPanier);
             }
@@ -80,7 +76,7 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
     }
 
     @Override
-    public boolean UpdatePanier(int IdPanier, int nbreArticle, String nomArticle, char status) {
+    public boolean UpdatePanier(int IdPanier, int nbreArticle, String nomArticle, int IdClient) {
         return false;
     }
 
@@ -104,11 +100,11 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
             {
                 int nbreArticle = result.getInt("nbreArticle");
                 String nomArticle = result.getString("nomArticle");
-                char status = result.getString("status").charAt(0);
+                int IdClient = result.getInt("IdClient");
 
                 // création et initialisation de l'objet Book
-                selectedPanier = new Panier(IdPanier, nbreArticle, nomArticle);
-                selectedPanier.setStatus(status);
+                selectedPanier = new Panier(IdPanier, nbreArticle, nomArticle,IdClient);
+                selectedPanier.setIdClient(IdClient);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

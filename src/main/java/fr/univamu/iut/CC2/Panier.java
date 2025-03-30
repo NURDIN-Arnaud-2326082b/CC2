@@ -24,7 +24,7 @@ public class Panier {
      * Statut du livre
      * ('r' pour réservé, 'e' pour emprunté, et 'd' pour disponible)
      */
-    protected char status;
+    protected int IdClient;
 
     /**
      * Constructeur par défaut
@@ -33,16 +33,17 @@ public class Panier {
     }
 
     /**
-     * Constructeur de livre
-     * @param IdPanier référence du livre
-     * @param nbreArticle titre du livre
-     * @param nomArticle auteurs du livre
+     * Constructeur du Panier
+     * @param IdPanier identifiant du panier
+     * @param nbreArticle nombre d'article dans le panier
+     * @param nomArticle nom de l'article
+     * @param IdClient identifiant du client
      */
-    public Panier(int IdPanier, int nbreArticle, String nomArticle){
+    public Panier(int IdPanier, int nbreArticle, String nomArticle,int IdClient){
         this.IdPanier = IdPanier;
         this.nbreArticle = nbreArticle;
         this.nomArticle = nomArticle;
-        this.status = 'd';
+        this.IdClient = IdClient;
     }
 
     /**
@@ -73,8 +74,8 @@ public class Panier {
      * Méthode permettant d'accéder au statut du livre
      * @return un caractère indiquant lestatu du livre ('r' pour réservé, 'e' pour emprunté, et 'd' pour disponible)
      */
-    public char getStatus() {
-        return status;
+    public int getIdClient() {
+        return IdClient;
     }
 
     /**
@@ -103,10 +104,10 @@ public class Panier {
 
     /**
      * Méthode permettant de modifier le statut du livre
-     * @param status le caractère 'r' pour réservé, 'e' pour emprunté, ou 'd' pour disponible
+     * @param IdClient le caractère 'r' pour réservé, 'e' pour emprunté, ou 'd' pour disponible
      */
-    public void setStatus(char status) {
-        this.status = status;
+    public void setIdClient(int IdClient) {
+        this.IdClient = IdClient;
     }
 
     @Override
@@ -115,7 +116,7 @@ public class Panier {
                 "IdPanier='" + IdPanier + '\'' +
                 ", nbreArticle='" + nbreArticle + '\'' +
                 ", nomArticle='" + nomArticle + '\'' +
-                ", statut=" + status +
+                ", IdClient=" + IdClient +
                 '}';
     }
 }

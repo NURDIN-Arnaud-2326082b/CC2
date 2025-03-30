@@ -69,6 +69,6 @@ public class PanierService {
      * @return true si le livre a pu être mis à jours
      */
     public boolean updatePanier(int idPanier, Panier panier) {
-        return PanierRepo.UpdatePanier(idPanier, panier.nbreArticle, panier.nomArticle, panier.status);
+        return PanierRepo.UpdatePanier(idPanier, panier.nbreArticle, panier.nomArticle, panier.IdClient);
     }
 }

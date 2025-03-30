@@ -30,10 +30,10 @@ public interface PanierRepositoryInterface {
      * @param IdPanier identifiant du livre à mettre à jours
      * @param nbreArticle nouveau titre du livre
      * @param nomArticle nouvelle liste d'auteurs
-     * @param status nouveau status du livre
+     * @param IdClient nouveau status du livre
      * @return true si le livre existe et la mise à jours a été faite, false sinon
      */
-    public boolean UpdatePanier( int IdPanier, int nbreArticle, String nomArticle, char status);
+    public boolean UpdatePanier( int IdPanier, int nbreArticle, String nomArticle, int IdClient);
 
 
 }
