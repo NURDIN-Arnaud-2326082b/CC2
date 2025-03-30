@@ -1,4 +1,4 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.commandes;
 
 import java.io.Closeable;
 import java.sql.*;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Classe permettant d'accèder aux livres stockés dans une base de données Mariadb
  */
-public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeable {
+public class CommandesRepositoryMariadb implements CommandesRepositoryInterface, Closeable {
 
     /**
      * Accès à la base de données (session)
@@ -21,7 +21,7 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
      * @param user chaîne de caractères contenant l'identifiant de connexion à la base de données
      * @param pwd chaîne de caractères contenant le mot de passe à utiliser
      */
-    public BookRepositoryMariadb(String infoConnection, String user, String pwd ) throws java.sql.SQLException, java.lang.ClassNotFoundException {
+    public CommandesRepositoryMariadb(String infoConnection, String user, String pwd ) throws java.sql.SQLException, java.lang.ClassNotFoundException {
         Class.forName("org.mariadb.jdbc.Driver");
         dbConnection = DriverManager.getConnection( infoConnection, user, pwd ) ;
     }
@@ -37,11 +37,11 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
     }
 
     @Override
-    public Book getBook(String reference) {
+    public Commandes getCommandes(String reference) {
 
-        Book selectedBook = null;
+        Commandes selectedCommandes = null;
 
-        String query = "SELECT * FROM Book WHERE reference=?";
+        String query = "SELECT * FROM Commandes WHERE reference=?";
 
         // construction et exécution d'une requête préparée
         try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
@@ -58,28 +58,28 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
                 String authors = result.getString("authors");
                 char status = result.getString("status").charAt(0);
 
-                // création et initialisation de l'objet Book
-                selectedBook = new Book(reference, title, authors);
-                selectedBook.setStatus(status);
+                // création et initialisation de l'objet Commandes
+                selectedCommandes = new Commandes(reference, title, authors);
+                selectedCommandes.setStatus(status);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return selectedBook;
+        return selectedCommandes;
     }
 
     @Override
-    public ArrayList<Book> getAllBooks() {
-        ArrayList<Book> listBooks ;
+    public ArrayList<Commandes> getAllCommandess() {
+        ArrayList<Commandes> listCommandess ;
 
-        String query = "SELECT * FROM Book";
+        String query = "SELECT * FROM Commandes";
 
         // construction et exécution d'une requête préparée
         try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
             // exécution de la requête
             ResultSet result = ps.executeQuery();
 
-            listBooks = new ArrayList<>();
+            listCommandess = new ArrayList<>();
 
             // récupération du premier (et seul) tuple résultat
             while ( result.next() )
@@ -90,20 +90,20 @@ public class BookRepositoryMariadb   implements BookRepositoryInterface, Closeab
                 char status = result.getString("status").charAt(0);
 
                 // création du livre courant
-                Book currentBook = new Book(reference, title, authors);
-                currentBook.setStatus(status);
+                Commandes currentCommandes = new Commandes(reference, title, authors);
+                currentCommandes.setStatus(status);
 
-                listBooks.add(currentBook);
+                listCommandess.add(currentCommandes);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listBooks;
+        return listCommandess;
     }
 
     @Override
-    public boolean updateBook(String reference, String title, String authors, char status) {
-        String query = "UPDATE Book SET title=?, authors=?, status=?  where reference=?";
+    public boolean updateCommandes(String reference, String title, String authors, char status) {
+        String query = "UPDATE Commandes SET title=?, authors=?, status=?  where reference=?";
         int nbRowModified = 0;
 
         // construction et exécution d'une requête préparée

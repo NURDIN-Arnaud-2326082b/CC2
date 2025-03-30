@@ -1,11 +1,11 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.commandes;
 
 import java.util.*;
 
 /**
  * Interface d'accès aux données des livres
  */
-public interface BookRepositoryInterface {
+public interface CommandesRepositoryInterface {
 
     /**
      *  Méthode fermant le dépôt où sont stockées les informations sur les livres
@@ -15,15 +15,15 @@ public interface BookRepositoryInterface {
     /**
      * Méthode retournant le livre dont la référence est passée en paramètre
      * @param reference identifiant du livre recherché
-     * @return un objet Book représentant le livre recherché
+     * @return un objet Commandes représentant le livre recherché
      */
-    public Book getBook( String reference );
+    public Commandes getCommandes( String reference );
 
     /**
      * Méthode retournant la liste des livres
      * @return une liste d'objets livres
      */
-    public ArrayList<Book> getAllBooks() ;
+    public ArrayList<Commandes> getAllCommandess() ;
 
     /**
      * Méthode permettant de mettre à jours un livre enregistré
@@ -33,6 +33,5 @@ public interface BookRepositoryInterface {
      * @param status nouveau status du livre
      * @return true si le livre existe et la mise à jours a été faite, false sinon
      */
-    public boolean updateBook( String reference, String title, String authors, char status);
+    public boolean updateCommandes( String reference, String title, String authors, char status);
 }
-

@@ -1,4 +1,4 @@
-package fr.univamu.iut.book;
+package fr.univamu.iut.commandes;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -9,33 +9,33 @@ import java.util.ArrayList;
  * Classe utilisée pour récupérer les informations nécessaires à la ressource
  * (permet de dissocier ressource et mode d'éccès aux données)
  */
-public class BookService {
+public class CommandesService {
 
     /**
      * Objet permettant d'accéder au dépôt où sont stockées les informations sur les livres
      */
-    protected BookRepositoryInterface bookRepo ;
+    protected CommandesRepositoryInterface CommandesRepo ;
 
     /**
      * Constructeur permettant d'injecter l'accès aux données
-     * @param bookRepo objet implémentant l'interface d'accès aux données
+     * @param CommandesRepo objet implémentant l'interface d'accès aux données
      */
-    public  BookService( BookRepositoryInterface bookRepo) {
-        this.bookRepo = bookRepo;
+    public CommandesService(CommandesRepositoryInterface CommandesRepo) {
+        this.CommandesRepo = CommandesRepo;
     }
 
     /**
      * Méthode retournant les informations sur les livres au format JSON
      * @return une chaîne de caractère contenant les informations au format JSON
      */
-    public String getAllBooksJSON(){
+    public String getAllCommandessJSON(){
 
-        ArrayList<Book> allBooks = bookRepo.getAllBooks();
+        ArrayList<Commandes> allCommandess = CommandesRepo.getAllCommandess();
 
         // création du json et conversion de la liste de livres
         String result = null;
         try( Jsonb jsonb = JsonbBuilder.create()){
-            result = jsonb.toJson(allBooks);
+            result = jsonb.toJson(allCommandess);
         }
         catch (Exception e){
             System.err.println( e.getMessage() );
@@ -49,16 +49,16 @@ public class BookService {
      * @param reference la référence du livre recherché
      * @return une chaîne de caractère contenant les informations au format JSON
      */
-    public String getBookJSON( String reference ){
+    public String getCommandesJSON( String reference ){
         String result = null;
-        Book myBook = bookRepo.getBook(reference);
+        Commandes myCommandes = CommandesRepo.getCommandes(reference);
 
         // si le livre a été trouvé
-        if( myBook != null ) {
+        if( myCommandes != null ) {
 
             // création du json et conversion du livre
             try (Jsonb jsonb = JsonbBuilder.create()) {
-                result = jsonb.toJson(myBook);
+                result = jsonb.toJson(myCommandes);
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
@@ -69,10 +69,10 @@ public class BookService {
     /**
      * Méthode permettant de mettre à jours les informations d'un livre
      * @param reference référence du livre à mettre à jours
-     * @param book les nouvelles infromations a été utiliser
+     * @param Commandes les nouvelles infromations a été utiliser
      * @return true si le livre a pu être mis à jours
      */
-    public boolean updateBook(String reference, Book book) {
-        return bookRepo.updateBook(reference, book.title, book.authors, book.status);
+    public boolean updateCommandes(String reference, Commandes Commandes) {
+        return CommandesRepo.updateCommandes(reference, Commandes.title, Commandes.authors, Commandes.status);
     }
 }
