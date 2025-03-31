@@ -1,6 +1,9 @@
 package fr.univamu.iut.commandes;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 import java.util.ArrayList;
+
 
 public interface CommandesRepositoryInterface {
 

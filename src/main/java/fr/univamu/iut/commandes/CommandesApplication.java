@@ -22,7 +22,7 @@ public class CommandesApplication extends Application {
         CommandesRepositoryMariadb db = null;
 
         try{
-            db = new CommandesRepositoryMariadb("jdbc:mariadb://mysql-vernagut.alwaysdata.net:3306/vernagut_cc2", "vernagut_cc2", "cooperative_agricole");
+            db = new CommandesRepositoryMariadb("jdbc:mariadb://mysql-loeb.alwaysdata.net:3306/loeb", "loeb", "aC.2c2pxkzr4*qu");
         }
         catch (Exception e){
             System.err.println(e.getMessage());

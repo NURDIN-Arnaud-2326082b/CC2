@@ -1,5 +1,6 @@
 package fr.univamu.iut.commandes;
 
+import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ public class CommandesService {
 
     protected CommandesRepositoryInterface commandesRepo;
 
+    @Inject
     public CommandesService(CommandesRepositoryInterface commandesRepo) {
         this.commandesRepo = commandesRepo;
     }

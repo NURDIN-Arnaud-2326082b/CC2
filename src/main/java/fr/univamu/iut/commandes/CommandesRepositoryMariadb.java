@@ -1,9 +1,12 @@
 package fr.univamu.iut.commandes;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 import java.io.Closeable;
 import java.sql.*;
 import java.util.ArrayList;
 
+@ApplicationScoped
 public class CommandesRepositoryMariadb implements CommandesRepositoryInterface, Closeable {
 
     protected Connection dbConnection;
