@@ -4,7 +4,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 
-
 public interface CommandesRepositoryInterface {
 
     void close();
@@ -13,7 +12,7 @@ public interface CommandesRepositoryInterface {
 
     ArrayList<Commandes> getAllCommandes();
 
-    boolean updateCommande(int id_commande, int id_abonne, int id_panier, double prix_total, String date_commande, String date_retrait, String localisation_retrait, String statut, String moyen_paiement);
+    boolean updateCommande(int id_commande, int id_client, int id_panier, double prix_total, String date_retrait, String localisation_retrait, String statut);
 
     boolean createCommande(Commandes commande);
 

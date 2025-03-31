@@ -39,7 +39,7 @@ public class CommandesService {
     }
 
     public boolean updateCommande(int id_commande, Commandes commande) {
-        return commandesRepo.updateCommande(id_commande, commande.getId_abonne(), commande.getId_panier(), commande.getPrix_total(), commande.getDate_commande(), commande.getDate_retrait(), commande.getLocalisation_retrait(), commande.getStatut(), commande.getMoyen_paiement());
+        return commandesRepo.updateCommande(id_commande, commande.getId_client(), commande.getId_panier(), commande.getPrix_total(), commande.getDate_retrait(), commande.getLocalisation_retrait(), commande.getStatut());
     }
 
     public boolean createCommande(Commandes commande) {

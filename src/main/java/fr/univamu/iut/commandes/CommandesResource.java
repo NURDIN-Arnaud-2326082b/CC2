@@ -14,7 +14,7 @@ public class CommandesResource {
     public CommandesResource() {}
 
     @Inject
-    public CommandesResource(CommandesRepositoryInterface commandesRepo) {
+    public CommandesResource(@MariaDB CommandesRepositoryInterface commandesRepo) {
         this.service = new CommandesService(commandesRepo);
     }
 
