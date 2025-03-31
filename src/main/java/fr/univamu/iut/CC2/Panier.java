@@ -1,28 +1,27 @@
 package fr.univamu.iut.CC2;
 
 /**
- * Classe représentant un livre
+ * Classe représentant un panier
  */
 public class Panier {
 
     /**
-     * Référence du livre
+     * identifiant du panier
      */
     protected int IdPanier;
 
     /**
-     * titre du livre
+     * nombre d'article dans le panier
      */
     protected int nbreArticle;
 
     /**
-     * Auteurs du livre
+     * nom de l'article
      */
     protected String nomArticle;
 
     /**
-     * Statut du livre
-     * ('r' pour réservé, 'e' pour emprunté, et 'd' pour disponible)
+     * identifiant du client
      */
     protected int IdClient;
 
@@ -47,64 +46,64 @@ public class Panier {
     }
 
     /**
-     * Méthode permettant d'accéder à la réference du livre
-     * @return un chaîne de caractères avec la référence du livre
+     * Méthode permettant d'accéder à l'identifiant du panier
+     * @return un chaîne de caractères avec l'identifiant du panier
      */
     public int getIdPanier() {
         return IdPanier;
     }
 
     /**
-     * Méthode permettant d'accéder au titre du livre
-     * @return un chaîne de caractères avec le titre du livre
+     * Méthode permettant d'accéder au nombre d'article dans le panier
+     * @return un chaîne de caractères avec le nombre d'article dans le panier
      */
     public int getNbreArticle() {
         return nbreArticle;
     }
 
     /**
-     * Méthode permettant d'accéder aux auteurs du livre
-     * @return un chaîne de caractères avec la liste des auteurs
+     * Méthode permettant d'accéder au nom de l'article
+     * @return un chaîne de caractères avec le nom de l'article
      */
     public String getNomArticle() {
         return nomArticle;
     }
 
     /**
-     * Méthode permettant d'accéder au statut du livre
-     * @return un caractère indiquant lestatu du livre ('r' pour réservé, 'e' pour emprunté, et 'd' pour disponible)
+     * Méthode permettant d'accéder à l'identifiant du client
+     * @return un caractère indiquant l'id du client
      */
     public int getIdClient() {
         return IdClient;
     }
 
     /**
-     * Méthode permettant de modifier la référence du livre
-     * @param IdPanier une chaîne de caractères avec la référence à utiliser
+     * Méthode permettant de modifier l'identifiant du panier
+     * @param IdPanier une chaîne de caractères avec l'identifiant à utiliser
      */
     public void IdPanier(int IdPanier) {
         this.IdPanier = IdPanier;
     }
 
     /**
-     * Méthode permettant de modifier le titre du livre
-     * @param nbreArticle une chaîne de caractères avec le titre à utiliser
+     * Méthode permettant de modifier le nombre d'article dans le panier
+     * @param nbreArticle une chaîne de caractères avec le nombre d'article
      */
     public void setNbreArticle(int nbreArticle) {
         this.nbreArticle = nbreArticle;
     }
 
     /**
-     * Méthode permettant de modifier les autheurs du livre
-     * @param nomArticle une chaîne de caractères avec la liste des auteurs
+     * Méthode permettant de modifier le nom de l'article
+     * @param nomArticle une chaîne de caractères avec le nom de l'article
      */
     public void setNomArticle(String nomArticle) {
         this.nomArticle = nomArticle;
     }
 
     /**
-     * Méthode permettant de modifier le statut du livre
-     * @param IdClient le caractère 'r' pour réservé, 'e' pour emprunté, ou 'd' pour disponible
+     * Méthode permettant de modifier l'identifiant du client
+     * @param IdClient le caractère à utiliser
      */
     public void setIdClient(int IdClient) {
         this.IdClient = IdClient;

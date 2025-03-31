@@ -14,8 +14,8 @@ public class PanierResource {
     public PanierResource() {}
 
     @Inject
-    public PanierResource(PanierRepositoryInterface bookRepo) {
-        this.service = new PanierService(bookRepo);
+    public PanierResource(PanierRepositoryInterface panierRepo) {
+        this.service = new PanierService(panierRepo);
     }
 
     public PanierResource(PanierService service) {
@@ -42,7 +42,7 @@ public class PanierResource {
     @PUT
     @Path("{IdPanier}")
     @Consumes("application/json")
-    public Response updateBook(@PathParam("IdPanier") int IdPanier, Panier panier) {
+    public Response updatepanier(@PathParam("IdPanier") int IdPanier, Panier panier) {
         if (!service.updatePanier(IdPanier, panier)) {
             throw new NotFoundException();
         } else {

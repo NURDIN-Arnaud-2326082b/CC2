@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * Classe permettant d'accèder aux livres stockés dans une base de données Mariadb
+ * Classe permettant d'accèder aux paniers stockés dans une base de données Mariadb
  */
 public class PanierRepositoryMariadb implements PanierRepositoryInterface, Closeable {
 
@@ -63,7 +63,7 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
                 String nomArticle = result.getString("nomArticle");
                 int IdClient = result.getInt("IdClient");
 
-                // création du livre courant
+                // création du panier courant
                 Panier currentPanier = new Panier(IdPanier, nbreArticle, nomArticle,IdClient);
                 currentPanier.setIdClient(IdClient);
 
@@ -85,7 +85,7 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
 
         Panier selectedPanier = null;
 
-        String query = "SELECT * FROM Book WHERE reference=?";
+        String query = "SELECT * FROM panier WHERE IdPanier=?";
 
         // construction et exécution d'une requête préparée
         try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
@@ -95,14 +95,14 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
             ResultSet result = ps.executeQuery();
 
             // récupération du premier (et seul) tuple résultat
-            // (si la référence du livre est valide)
+            // (si la référence du panier est valide)
             if( result.next() )
             {
                 int nbreArticle = result.getInt("nbreArticle");
                 String nomArticle = result.getString("nomArticle");
                 int IdClient = result.getInt("IdClient");
 
-                // création et initialisation de l'objet Book
+                // création et initialisation de l'objet panier
                 selectedPanier = new Panier(IdPanier, nbreArticle, nomArticle,IdClient);
                 selectedPanier.setIdClient(IdClient);
             }
@@ -114,15 +114,15 @@ public class PanierRepositoryMariadb implements PanierRepositoryInterface, Close
 
 
 
-    public boolean updatePanier(int IdPanier, int nbreArticle, String nomArticle, char status) {
-        String query = "UPDATE Book SET nomArticle=?, authors=?, status=?  where reference=?";
+    public boolean updatePanier(int IdPanier, int nbreArticle, String nomArticle, int IdClient) {
+        String query = "UPDATE panier SET nomArticle=?, IdPanier=?, nbreArticle=?  where IdClient=?";
         int nbRowModified = 0;
 
         // construction et exécution d'une requête préparée
         try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
             ps.setInt(1, IdPanier);
             ps.setString(2, nomArticle);
-            ps.setString(3, String.valueOf(status) );
+            ps.setInt(3, IdClient );
             ps.setInt(4, nbreArticle);
 
             // exécution de la requête
