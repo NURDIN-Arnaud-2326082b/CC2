@@ -13,18 +13,18 @@ public class Product {
     /**
      * titre du livre
      */
-    protected String title;
+    protected String name;
 
     /**
      * Auteurs du livre
      */
-    protected String authors;
+    protected String category;
 
     /**
      * Statut du livre
      * ('r' pour réservé, 'e' pour emprunté, et 'd' pour disponible)
      */
-    protected char status;
+    protected int stock;
 
     /**
      * Constructeur par défaut
@@ -35,14 +35,14 @@ public class Product {
     /**
      * Constructeur de livre
      * @param reference référence du livre
-     * @param title titre du livre
-     * @param authors auteurs du livre
+     * @param name titre du livre
+     * @param category auteurs du livre
      */
-    public Product(String reference, String title, String authors){
+    public Product(String reference, String name, String category){
         this.reference = reference;
-        this.title = title;
-        this.authors = authors;
-        this.status = 'd';
+        this.name = name;
+        this.category = category;
+        this.stock = 0;
     }
 
     /**
@@ -57,24 +57,24 @@ public class Product {
      * Méthode permettant d'accéder au titre du livre
      * @return un chaîne de caractères avec le titre du livre
      */
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     /**
      * Méthode permettant d'accéder aux auteurs du livre
      * @return un chaîne de caractères avec la liste des auteurs
      */
-    public String getAuthors() {
-        return authors;
+    public String getCategory() {
+        return category;
     }
 
     /**
      * Méthode permettant d'accéder au statut du livre
      * @return un caractère indiquant lestatu du livre ('r' pour réservé, 'e' pour emprunté, et 'd' pour disponible)
      */
-    public char getStatus() {
-        return status;
+    public int getStock() {
+        return stock;
     }
 
     /**
@@ -87,35 +87,35 @@ public class Product {
 
     /**
      * Méthode permettant de modifier le titre du livre
-     * @param title une chaîne de caractères avec le titre à utiliser
+     * @param name une chaîne de caractères avec le titre à utiliser
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
      * Méthode permettant de modifier les autheurs du livre
-     * @param authors une chaîne de caractères avec la liste des auteurs
+     * @param category une chaîne de caractères avec la liste des auteurs
      */
-    public void setAuthors(String authors) {
-        this.authors = authors;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     /**
      * Méthode permettant de modifier le statut du livre
-     * @param status le caractère 'r' pour réservé, 'e' pour emprunté, ou 'd' pour disponible
+     * @param stock le caractère 'r' pour réservé, 'e' pour emprunté, ou 'd' pour disponible
      */
-    public void setStatus(char status) {
-        this.status = status;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     @Override
     public String toString() {
-        return "Livre{" +
+        return "Product{" +
                 "reference='" + reference + '\'' +
-                ", titre='" + title + '\'' +
-                ", auteurs='" + authors + '\'' +
-                ", statut=" + status +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", stock=" + stock +
                 '}';
     }
 }

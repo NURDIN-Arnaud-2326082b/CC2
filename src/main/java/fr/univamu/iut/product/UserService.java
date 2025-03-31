@@ -9,33 +9,33 @@ import java.util.ArrayList;
  * Classe utilisée pour récupérer les informations nécessaires à la ressource
  * (permet de dissocier ressource et mode d'éccès aux données)
  */
-public class ProductService {
+public class UserService {
 
     /**
      * Objet permettant d'accéder au dépôt où sont stockées les informations sur les livres
      */
-    protected ProductRepositoryInterface bookRepo ;
+    protected UserRepositoryInterface userRepo;
 
     /**
      * Constructeur permettant d'injecter l'accès aux données
-     * @param bookRepo objet implémentant l'interface d'accès aux données
+     * @param userRepo objet implémentant l'interface d'accès aux données
      */
-    public ProductService(ProductRepositoryInterface bookRepo) {
-        this.bookRepo = bookRepo;
+    public UserService(UserRepositoryInterface userRepo) {
+        this.userRepo = userRepo;
     }
 
     /**
      * Méthode retournant les informations sur les livres au format JSON
      * @return une chaîne de caractère contenant les informations au format JSON
      */
-    public String getAllProductsJSON(){
+    public String getAllUsersJSON(){
 
-        ArrayList<Product> allProducts = bookRepo.getAllProducts();
+        ArrayList<User> allUsers = userRepo.getAllUsers();
 
         // création du json et conversion de la liste de livres
         String result = null;
         try( Jsonb jsonb = JsonbBuilder.create()){
-            result = jsonb.toJson(allProducts);
+            result = jsonb.toJson(allUsers);
         }
         catch (Exception e){
             System.err.println( e.getMessage() );
@@ -46,19 +46,19 @@ public class ProductService {
 
     /**
      * Méthode retournant au format JSON les informations sur un livre recherché
-     * @param reference la référence du livre recherché
+     * @param id la référence du livre recherché
      * @return une chaîne de caractère contenant les informations au format JSON
      */
-    public String getProductJSON(String reference ){
+    public String getUserJSON(int id ){
         String result = null;
-        Product myProduct = bookRepo.getProduct(reference);
+        User myUser = userRepo.getUser(id);
 
         // si le livre a été trouvé
-        if( myProduct != null ) {
+        if( myUser != null ) {
 
             // création du json et conversion du livre
             try (Jsonb jsonb = JsonbBuilder.create()) {
-                result = jsonb.toJson(myProduct);
+                result = jsonb.toJson(myUser);
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
@@ -68,11 +68,11 @@ public class ProductService {
 
     /**
      * Méthode permettant de mettre à jours les informations d'un livre
-     * @param reference référence du livre à mettre à jours
-     * @param product les nouvelles infromations a été utiliser
+     * @param id référence du livre à mettre à jours
+     * @param user les nouvelles infromations a été utiliser
      * @return true si le livre a pu être mis à jours
      */
-    public boolean updateProduct(String reference, Product product) {
-        return bookRepo.updateProduct(reference, product.name, product.category, product.stock);
+    public boolean updateUser(int id, User user) {
+        return userRepo.updateUser(id, user.email, user.firstName, user.name, user.password);
     }
 }

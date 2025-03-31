@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/api")
 @ApplicationScoped
-public class BookApplication extends Application {
+public class ProductApplication extends Application {
 
     /**
      * Méthode appelée par l'API CDI pour injecter la connection à la base de données au moment de la création
@@ -32,9 +32,9 @@ public class BookApplication extends Application {
 
     /**
      * Méthode permettant de fermer la connexion à la base de données lorsque l'application est arrêtée
-     * @param bookRepo la connexion à la base de données instanciée dans la méthode @openDbConnection
+     * @param productRepo la connexion à la base de données instanciée dans la méthode @openDbConnection
      */
-    private void closeDbConnection(@Disposes ProductRepositoryInterface bookRepo ) {
-        bookRepo.close();
+    private void closeDbConnection(@Disposes ProductRepositoryInterface productRepo ) {
+        productRepo.close();
     }
 }
