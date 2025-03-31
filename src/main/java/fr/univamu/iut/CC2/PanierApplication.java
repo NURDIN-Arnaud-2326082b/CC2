@@ -22,7 +22,7 @@ public class PanierApplication extends Application {
         PanierRepositoryMariadb db = null;
 
         try{
-            db = new PanierRepositoryMariadb("jdbc:mariadb://mysql-cc2.alwaysdata.net/cc2_library_db", "cc2_library", "cc2r401");
+            db = new PanierRepositoryMariadb("jdbc:mariadb://mysql-vernagut.alwaysdata.net/vernagut_cooperative_agricole", "vernagut_cc2", "cooperative_agricole");
         }
         catch (Exception e){
             System.err.println(e.getMessage());
