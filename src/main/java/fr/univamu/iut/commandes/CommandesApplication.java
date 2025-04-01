@@ -18,7 +18,7 @@ public class CommandesApplication extends Application {
     private CommandesRepositoryInterface openDbConnection() {
         CommandesRepositoryMariadb db = null;
         try {
-            db = new CommandesRepositoryMariadb("jdbc:mariadb://mysql-loeb.alwaysdata.net:3306/loeb", "loeb", "aC.2c2pxkzr4*qu");
+            db = new CommandesRepositoryMariadb("jdbc:mariadb://mysql-loeb.alwaysdata.net/loeb_commandes", "loeb", "aC.2c2pxkzr4*qu");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

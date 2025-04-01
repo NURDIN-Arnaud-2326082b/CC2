@@ -9,6 +9,8 @@ public class CommandesService {
 
     protected CommandesRepositoryInterface commandesRepo;
 
+    public CommandesService() {}
+
     @Inject
     public CommandesService(CommandesRepositoryInterface commandesRepo) {
         this.commandesRepo = commandesRepo;
