@@ -60,4 +60,20 @@ public class CommandesResource {
         else
             return Response.status(Response.Status.NOT_FOUND).build();
     }
+
+    /**
+     * Endpoint permettant d'enregistrer une commande
+     * @param id identifiant de la commande
+     * @param commande objet Commandes contenant les détails de la commande
+     * @return un objet Response indiquant "registered" si la commande a été enregistrée ou une erreur "not found" sinon
+     */
+    @POST
+    @Path("{id}/register")
+    @Consumes("application/json")
+    public Response registerCommande(@PathParam("id") int id, Commandes commande) {
+        if (service.registerCommande(id, commande))
+            return Response.ok("registered").build();
+        else
+            return Response.status(Response.Status.NOT_FOUND).build();
+    }
 }

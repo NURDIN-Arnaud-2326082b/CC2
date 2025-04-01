@@ -3,14 +3,18 @@ package fr.univamu.iut.commandes;
 import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
+import jakarta.ws.rs.NotFoundException;
+
 import java.util.ArrayList;
 
 public class CommandesService {
 
     protected CommandesRepositoryInterface commandesRepo;
 
-    public CommandesService() {}
-
+    /**
+     * Constructeur permettant d'injecter l'accès aux données
+     * @param commandesRepo objet implémentant l'interface d'accès aux données des commandes
+     */
     @Inject
     public CommandesService(CommandesRepositoryInterface commandesRepo) {
         this.commandesRepo = commandesRepo;
@@ -51,4 +55,40 @@ public class CommandesService {
     public boolean deleteCommande(int id_commande) {
         return commandesRepo.deleteCommande(id_commande);
     }
+
+
+    /**
+     * Méthode permettant d'enregistrer une commande
+     * @param id identifiant de la commande
+     * @param commande objet Commandes contenant les détails de la commande
+     * @return true si la commande a pu être enregistrée, false sinon
+     */
+    public boolean registerCommande(int id, Commandes commande) {
+        boolean result = false;
+
+        // récupération des informations de la commande
+        Commandes existingCommande = commandesRepo.getCommande(id);
+
+        // si la commande n'est pas trouvée
+        if (existingCommande == null)
+            throw new NotFoundException("Commande non trouvée");
+
+        // si la commande est disponible
+        if ("disponible".equals(existingCommande.getStatut())) {
+            // mise à jour de la commande dans le dépôt
+            result = commandesRepo.updateCommande(id, commande.getPrix_total(), commande.getDate_retrait(), commande.getLocalisation_retrait(), "enregistrée");
+
+            // enregistrement de la commande
+            if (result)
+                result = commandesRepo.createCommande(commande);
+        }
+        return result;
+    }
+
+
+
 }
+
+
+
+

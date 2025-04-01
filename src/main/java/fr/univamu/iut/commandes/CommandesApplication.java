@@ -28,4 +28,14 @@ public class CommandesApplication extends Application {
     private void closeDbConnection(@Disposes @MariaDB CommandesRepositoryInterface commandesRepo) {
         commandesRepo.close();
     }
+/**
+ * Méthode appelée par l'API CDI pour injecter l'API Commandes au moment de la création de la ressource
+ * @return une instance de l'API avec l'url à utiliser
+ */
+    @Produces
+    private CommandesRepositoryInterface connectCommandesApi(){
+        return new CommandesRepositoryAPI("http://localhost:8080/book-1.0-SNAPSHOT/api/");
+    }
+
+
 }
