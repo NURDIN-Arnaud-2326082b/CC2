@@ -12,7 +12,7 @@ public interface CommandesRepositoryInterface {
 
     ArrayList<Commandes> getAllCommandes();
 
-    boolean updateCommande(int id_commande, int id_client, int id_panier, double prix_total, String date_retrait, String localisation_retrait, String statut);
+    boolean updateCommande(int id_commande, double prix_total, String date_retrait, String localisation_retrait, String statut);
 
     boolean createCommande(Commandes commande);
 

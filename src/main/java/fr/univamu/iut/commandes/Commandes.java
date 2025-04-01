@@ -6,8 +6,6 @@ package fr.univamu.iut.commandes;
 public class Commandes {
 
     protected int id_commande;
-    protected int id_client;
-    protected int id_panier;
     protected double prix_total;
     protected String date_retrait;
     protected String localisation_retrait;
@@ -15,10 +13,8 @@ public class Commandes {
 
     public Commandes() {}
 
-    public Commandes(int id_commande, int id_client, int id_panier, double prix_total, String date_retrait, String localisation_retrait, String statut) {
+    public Commandes(int id_commande, double prix_total, String date_retrait, String localisation_retrait, String statut) {
         this.id_commande = id_commande;
-        this.id_client = id_client;
-        this.id_panier = id_panier;
         this.prix_total = prix_total;
         this.date_retrait = date_retrait;
         this.localisation_retrait = localisation_retrait;
@@ -32,22 +28,6 @@ public class Commandes {
 
     public void setId_commande(int id_commande) {
         this.id_commande = id_commande;
-    }
-
-    public int getId_client() {
-        return id_client;
-    }
-
-    public void setId_client(int id_client) {
-        this.id_client = id_client;
-    }
-
-    public int getId_panier() {
-        return id_panier;
-    }
-
-    public void setId_panier(int id_panier) {
-        this.id_panier = id_panier;
     }
 
     public double getPrix_total() {
@@ -86,8 +66,6 @@ public class Commandes {
     public String toString() {
         return "Commande{" +
                 "id_commande=" + id_commande +
-                ", id_client=" + id_client +
-                ", id_panier=" + id_panier +
                 ", prix_total=" + prix_total +
                 ", date_retrait='" + date_retrait + '\'' +
                 ", localisation_retrait='" + localisation_retrait + '\'' +

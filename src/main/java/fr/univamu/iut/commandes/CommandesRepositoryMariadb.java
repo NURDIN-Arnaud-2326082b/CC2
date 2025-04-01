@@ -39,14 +39,12 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
             ResultSet result = ps.executeQuery();
 
             if (result.next()) {
-                int id_client = result.getInt("id_client");
-                int id_panier = result.getInt("id_panier");
                 double prix_total = result.getDouble("prix_total");
                 String date_retrait = result.getString("date_retrait");
                 String localisation_retrait = result.getString("localisation_retrait");
                 String statut = result.getString("statut");
 
-                selectedCommande = new Commandes(id_commande, id_client, id_panier, prix_total, date_retrait, localisation_retrait, statut);
+                selectedCommande = new Commandes(id_commande, prix_total, date_retrait, localisation_retrait, statut);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -64,14 +62,12 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
 
             while (result.next()) {
                 int id_commande = result.getInt("id_commande");
-                int id_client = result.getInt("id_client");
-                int id_panier = result.getInt("id_panier");
                 double prix_total = result.getDouble("prix_total");
                 String date_retrait = result.getString("date_retrait");
                 String localisation_retrait = result.getString("localisation_retrait");
                 String statut = result.getString("statut");
 
-                Commandes currentCommande = new Commandes(id_commande, id_client, id_panier, prix_total, date_retrait, localisation_retrait, statut);
+                Commandes currentCommande = new Commandes(id_commande, prix_total, date_retrait, localisation_retrait, statut);
 
                 listCommandes.add(currentCommande);
             }
@@ -82,18 +78,16 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
     }
 
     @Override
-    public boolean updateCommande(int id_commande, int id_client, int id_panier, double prix_total, String date_retrait, String localisation_retrait, String statut) {
-        String query = "UPDATE Commandes SET id_client=?, id_panier=?, prix_total=?, date_retrait=?, localisation_retrait=?, statut=? WHERE id_commande=?";
+    public boolean updateCommande(int id_commande, double prix_total, String date_retrait, String localisation_retrait, String statut) {
+        String query = "UPDATE Commandes SET prix_total=?, date_retrait=?, localisation_retrait=?, statut=? WHERE id_commande=?";
         int nbRowModified = 0;
 
         try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
-            ps.setInt(1, id_client);
-            ps.setInt(2, id_panier);
-            ps.setDouble(3, prix_total);
-            ps.setString(4, date_retrait);
-            ps.setString(5, localisation_retrait);
-            ps.setString(6, statut);
-            ps.setInt(7, id_commande);
+            ps.setDouble(1, prix_total);
+            ps.setString(2, date_retrait);
+            ps.setString(3, localisation_retrait);
+            ps.setString(4, statut);
+            ps.setInt(5, id_commande);
 
             nbRowModified = ps.executeUpdate();
         } catch (SQLException e) {
@@ -105,17 +99,15 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
 
     @Override
     public boolean createCommande(Commandes commande) {
-        String query = "INSERT INTO Commandes (id_commande, id_client, id_panier, prix_total, date_retrait, localisation_retrait, statut) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Commandes (id_commande, prix_total, date_retrait, localisation_retrait, statut) VALUES (?, ?, ?, ?, ?)";
         int nbRowModified = 0;
 
         try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
             ps.setInt(1, commande.getId_commande());
-            ps.setInt(2, commande.getId_client());
-            ps.setInt(3, commande.getId_panier());
-            ps.setDouble(4, commande.getPrix_total());
-            ps.setString(5, commande.getDate_retrait());
-            ps.setString(6, commande.getLocalisation_retrait());
-            ps.setString(7, commande.getStatut());
+            ps.setDouble(2, commande.getPrix_total());
+            ps.setString(3, commande.getDate_retrait());
+            ps.setString(4, commande.getLocalisation_retrait());
+            ps.setString(5, commande.getStatut());
 
             nbRowModified = ps.executeUpdate();
         } catch (SQLException e) {
