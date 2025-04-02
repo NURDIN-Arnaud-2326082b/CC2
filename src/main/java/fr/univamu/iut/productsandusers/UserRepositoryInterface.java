@@ -1,4 +1,4 @@
-package fr.univamu.iut.product;
+package fr.univamu.iut.productsandusers;
 
 import java.util.*;
 
@@ -32,8 +32,21 @@ public interface UserRepositoryInterface {
      * @param firstName nouvelle liste d'auteurs
      * @param name nouveau status du livre
      * @param password nouveau status du livre
+     * @param role nouveau rôle de l'utilisateur
      * @return true si le livre existe et la mise à jours a été faite, false sinon
      */
-    public boolean updateUser(int id, String email, String firstName, String name, String password);
-}
+    public boolean updateUser(int id, String email, String firstName, String name, String password, String role);
 
+    /**
+     * Méthode permettant de créer un nouvel utilisateur
+     * @param user objet User représentant le nouvel utilisateur
+     */
+    public void createUser(User user);
+
+    /**
+     * Méthode permettant de supprimer un utilisateur
+     * @param id identifiant de l'utilisateur à supprimer
+     * @return true si l'utilisateur existe et a été supprimé, false sinon
+     */
+    public boolean deleteUser(int id);
+}

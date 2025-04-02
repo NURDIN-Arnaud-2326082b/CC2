@@ -1,4 +1,4 @@
-package fr.univamu.iut.product;
+package fr.univamu.iut.productsandusers;
 
 import java.util.*;
 
@@ -31,8 +31,10 @@ public interface ProductRepositoryInterface {
      * @param name nouveau titre du livre
      * @param category nouvelle liste d'auteurs
      * @param stock nouveau stock du livre
+     * @param unit nouvelle unité du produit
+     * @param price nouveau prix du produit
      * @return true si le livre existe et la mise à jours a été faite, false sinon
      */
-    public boolean updateProduct(String reference, String name, String category, int stock);
+    public boolean updateProduct(String reference, String name, String category, int stock, String unit, float price);
 }
 

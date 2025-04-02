@@ -1,4 +1,4 @@
-package fr.univamu.iut.product;
+package fr.univamu.iut.productsandusers;
 
 /**
  * Classe représentant un livre
@@ -29,6 +29,15 @@ public class User {
     protected String password;
 
     /**
+     * Rôle de l'utilisateur
+     */
+    public enum Role {
+        Client, Gestionnaire, Aucun
+    }
+
+    protected Role role;
+
+    /**
      * Constructeur par défaut
      */
     public User(){
@@ -41,13 +50,15 @@ public class User {
      * @param firstName auteurs du livre
      * @param name auteurs du livre
      * @param password auteurs du livre
+     * @param role rôle de l'utilisateur
      */
-    public User(int id, String email, String firstName, String name, String password){
+    public User(int id, String email, String firstName, String name, String password, Role role){
         this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.name = name;
         this.password = password;
+        this.role = role;
     }
 
     /**
@@ -91,6 +102,14 @@ public class User {
     }
 
     /**
+     * Méthode permettant d'accéder au rôle de l'utilisateur
+     * @return un chaîne de caractères avec le rôle de l'utilisateur
+     */
+    public Role getRole() {
+        return role;
+    }
+
+    /**
      * Méthode permettant de modifier la référence du livre
      * @param id une chaîne de caractères avec la référence à utiliser
      */
@@ -130,6 +149,13 @@ public class User {
         this.password = password;
     }
 
+    /**
+     * Méthode permettant de modifier le rôle de l'utilisateur
+     * @param role une chaîne de caractères avec le rôle à utiliser
+     */
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Override
     public String toString() {
@@ -138,7 +164,9 @@ public class User {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", name=" + name + '\'' +
-                ", password=" + password +
+                ", password=" + password + '\'' +
+                ", role=" + role +
                 '}';
     }
 }
+

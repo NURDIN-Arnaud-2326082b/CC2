@@ -1,4 +1,4 @@
-package fr.univamu.iut.product;
+package fr.univamu.iut.productsandusers;
 
 import java.io.Closeable;
 import java.sql.*;
@@ -56,10 +56,12 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
             {
                 String name = result.getString("name");
                 String category = result.getString("category");
-                int stock = result.getString("stock").charAt(0);
+                int stock = result.getInt("stock");
+                String unit = result.getString("unite");
+                float price = result.getFloat("prix");
 
                 // création et initialisation de l'objet Book
-                selectedProduct = new Product(reference, name, category);
+                selectedProduct = new Product(reference, name, category, unit, price);
                 selectedProduct.setStock(stock);
             }
         } catch (SQLException e) {
@@ -87,10 +89,12 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
                 String reference = result.getString("reference");
                 String name = result.getString("name");
                 String category = result.getString("category");
-                int stock = result.getString("stock").charAt(0);
+                int stock = result.getInt("stock");
+                String unit = result.getString("unite");
+                float price = result.getFloat("prix");
 
                 // création du livre courant
-                Product currentProduct = new Product(reference, name, category);
+                Product currentProduct = new Product(reference, name, category, unit, price);
                 currentProduct.setStock(stock);
 
                 listProducts.add(currentProduct);
@@ -102,8 +106,8 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
     }
 
     @Override
-    public boolean updateProduct(String reference, String name, String category, int stock) {
-        String query = "UPDATE Product SET name=?, category=?, stock=?  where reference=?";
+    public boolean updateProduct(String reference, String name, String category, int stock, String unit, float price) {
+        String query = "UPDATE Product SET name=?, category=?, stock=?, unite=?, prix=?  where reference=?";
         int nbRowModified = 0;
 
         // construction et exécution d'une requête préparée
@@ -111,7 +115,9 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
             ps.setString(1, name);
             ps.setString(2, category);
             ps.setInt(3, stock);
-            ps.setString(4, reference);
+            ps.setString(4, unit);
+            ps.setFloat(5, price);
+            ps.setString(6, reference);
 
             // exécution de la requête
             nbRowModified = ps.executeUpdate();

@@ -1,18 +1,17 @@
-package fr.univamu.iut.product;
+package fr.univamu.iut.productsandusers;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import java.util.ArrayList;
 
-
 /**
  * Classe utilisée pour récupérer les informations nécessaires à la ressource
- * (permet de dissocier ressource et mode d'éccès aux données)
+ * (permet de dissocier ressource et mode d'accès aux données)
  */
 public class UserService {
 
     /**
-     * Objet permettant d'accéder au dépôt où sont stockées les informations sur les livres
+     * Objet permettant d'accéder au dépôt où sont stockées les informations sur les utilisateurs
      */
     protected UserRepositoryInterface userRepo;
 
@@ -25,14 +24,14 @@ public class UserService {
     }
 
     /**
-     * Méthode retournant les informations sur les livres au format JSON
+     * Méthode retournant les informations sur les utilisateurs au format JSON
      * @return une chaîne de caractère contenant les informations au format JSON
      */
     public String getAllUsersJSON(){
 
         ArrayList<User> allUsers = userRepo.getAllUsers();
 
-        // création du json et conversion de la liste de livres
+        // création du json et conversion de la liste d'utilisateurs
         String result = null;
         try( Jsonb jsonb = JsonbBuilder.create()){
             result = jsonb.toJson(allUsers);
@@ -45,18 +44,18 @@ public class UserService {
     }
 
     /**
-     * Méthode retournant au format JSON les informations sur un livre recherché
-     * @param id la référence du livre recherché
+     * Méthode retournant au format JSON les informations sur un utilisateur recherché
+     * @param id la référence de l'utilisateur recherché
      * @return une chaîne de caractère contenant les informations au format JSON
      */
     public String getUserJSON(int id ){
         String result = null;
         User myUser = userRepo.getUser(id);
 
-        // si le livre a été trouvé
+        // si l'utilisateur a été trouvé
         if( myUser != null ) {
 
-            // création du json et conversion du livre
+            // création du json et conversion de l'utilisateur
             try (Jsonb jsonb = JsonbBuilder.create()) {
                 result = jsonb.toJson(myUser);
             } catch (Exception e) {
@@ -67,12 +66,29 @@ public class UserService {
     }
 
     /**
-     * Méthode permettant de mettre à jours les informations d'un livre
-     * @param id référence du livre à mettre à jours
-     * @param user les nouvelles infromations a été utiliser
-     * @return true si le livre a pu être mis à jours
+     * Méthode permettant de mettre à jour les informations d'un utilisateur
+     * @param id référence de l'utilisateur à mettre à jour
+     * @param user les nouvelles informations à utiliser
+     * @return true si l'utilisateur a pu être mis à jour
      */
     public boolean updateUser(int id, User user) {
-        return userRepo.updateUser(id, user.email, user.firstName, user.name, user.password);
+        return userRepo.updateUser(id, user.email, user.firstName, user.name, user.password, user.role.name());
+    }
+
+    /**
+     * Méthode permettant de créer un nouvel utilisateur
+     * @param user les informations de l'utilisateur à créer
+     */
+    public void createUser(User user) {
+        userRepo.createUser(user);
+    }
+
+    /**
+     * Méthode permettant de supprimer un utilisateur
+     * @param id référence de l'utilisateur à supprimer
+     * @return true si l'utilisateur a pu être supprimé
+     */
+    public boolean deleteUser(int id) {
+        return userRepo.deleteUser(id);
     }
 }

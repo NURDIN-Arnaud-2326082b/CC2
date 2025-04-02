@@ -1,4 +1,4 @@
-package fr.univamu.iut.product;
+package fr.univamu.iut.productsandusers;
 
 import java.io.Closeable;
 import java.sql.*;
@@ -41,7 +41,7 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
 
         User selectedUser = null;
 
-        String query = "SELECT * FROM Book WHERE reference=?";
+        String query = "SELECT * FROM User WHERE id=?";
 
         // construction et exécution d'une requête préparée
         try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
@@ -58,9 +58,10 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
                 String firstName = result.getString("firstName");
                 String name = result.getString("name");
                 String password = result.getString("password");
+                User.Role role = User.Role.valueOf(result.getString("role"));
 
-                // création et initialisation de l'objet Book
-                selectedUser = new User(id, email, firstName, name, password);
+                // création et initialisation de l'objet User
+                selectedUser = new User(id, email, firstName, name, password, role);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -89,9 +90,10 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
                 String firstName = result.getString("firstName");
                 String name = result.getString("name");
                 String password = result.getString("password");
+                User.Role role = User.Role.valueOf(result.getString("role"));
 
-                // création du livre courant
-                User currentUser = new User(id, email, firstName, name, password);
+                // création de l'utilisateur courant
+                User currentUser = new User(id, email, firstName, name, password, role);
 
                 listUsers.add(currentUser);
             }
@@ -102,8 +104,8 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
     }
 
     @Override
-    public boolean updateUser(int id, String email, String firstName, String name, String password) {
-        String query = "UPDATE User SET email=?, firstName=?, name=?, password=?  where id=?";
+    public boolean updateUser(int id, String email, String firstName, String name, String password, String role) {
+        String query = "UPDATE User SET email=?, firstName=?, name=?, password=?, role=? where id=?";
         int nbRowModified = 0;
 
         // construction et exécution d'une requête préparée
@@ -112,7 +114,8 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
             ps.setString(2, firstName);
             ps.setString(3, name);
             ps.setString(4, password);
-            ps.setInt(5, id);
+            ps.setString(5, role);
+            ps.setInt(6, id);
 
             // exécution de la requête
             nbRowModified = ps.executeUpdate();
@@ -122,4 +125,39 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
 
         return ( nbRowModified != 0 );
     }
+
+    @Override
+    public void createUser(User user) {
+        String query = "INSERT INTO User (id, email, firstName, name, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setInt(1, user.getId());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getFirstName());
+            ps.setString(4, user.getName());
+            ps.setString(5, user.getPassword());
+            ps.setString(6, user.getRole().name());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteUser(int id) {
+        String query = "DELETE FROM User WHERE id=?";
+        int nbRowModified = 0;
+
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setInt(1, id);
+
+            nbRowModified = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return (nbRowModified != 0);
+    }
 }
+

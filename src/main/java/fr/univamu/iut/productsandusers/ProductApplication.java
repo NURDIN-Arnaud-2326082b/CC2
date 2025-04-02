@@ -1,4 +1,4 @@
-package fr.univamu.iut.product;
+package fr.univamu.iut.productsandusers;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Disposes;
@@ -22,7 +22,7 @@ public class ProductApplication extends Application {
         ProductsRepositoryMariadb db = null;
 
         try{
-            db = new ProductsRepositoryMariadb("jdbc:mariadb://mysql-cc2.alwaysdata.net/cc2_library_db", "cc2_library", "cc2r401");
+            db = new ProductsRepositoryMariadb("jdbc:mariadb://mysql-cc2.alwaysdata.net/cc2_produit_et_service", "cc2_library", "cc2r401");
         }
         catch (Exception e){
             System.err.println(e.getMessage());
@@ -36,5 +36,22 @@ public class ProductApplication extends Application {
      */
     private void closeDbConnection(@Disposes ProductRepositoryInterface productRepo ) {
         productRepo.close();
+    }
+
+    @Produces
+    private UserRepositoryInterface openUserDbConnection(){
+        UsersRepositoryMariadb db = null;
+
+        try{
+            db = new UsersRepositoryMariadb("jdbc:mariadb://mysql-cc2.alwaysdata.net/cc2_produit_et_service", "cc2_library", "cc2r401");
+        }
+        catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+        return db;
+    }
+
+    private void closeUserDbConnection(@Disposes UserRepositoryInterface userRepo ) {
+        userRepo.close();
     }
 }

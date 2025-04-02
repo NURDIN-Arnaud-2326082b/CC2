@@ -1,4 +1,4 @@
-package fr.univamu.iut.product;
+package fr.univamu.iut.productsandusers;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -73,6 +73,6 @@ public class ProductService {
      * @return true si le livre a pu être mis à jours
      */
     public boolean updateProduct(String reference, Product product) {
-        return bookRepo.updateProduct(reference, product.name, product.category, product.stock);
+        return bookRepo.updateProduct(reference, product.name, product.category, product.stock, product.unit, product.price);
     }
 }
