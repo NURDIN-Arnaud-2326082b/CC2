@@ -12,25 +12,25 @@ import java.util.ArrayList;
 public class ProductService {
 
     /**
-     * Objet permettant d'accéder au dépôt où sont stockées les informations sur les livres
+     * Objet permettant d'accéder au dépôt où sont stockées les informations sur les produit
      */
-    protected ProductRepositoryInterface bookRepo ;
+    protected ProductRepositoryInterface productRepo ;
 
     /**
      * Constructeur permettant d'injecter l'accès aux données
-     * @param bookRepo objet implémentant l'interface d'accès aux données
+     * @param productRepo objet implémentant l'interface d'accès aux données
      */
-    public ProductService(ProductRepositoryInterface bookRepo) {
-        this.bookRepo = bookRepo;
+    public ProductService(ProductRepositoryInterface productRepo) {
+        this.productRepo = productRepo;
     }
 
     /**
-     * Méthode retournant les informations sur les livres au format JSON
+     * Méthode retournant les informations sur les produits au format JSON
      * @return une chaîne de caractère contenant les informations au format JSON
      */
     public String getAllProductsJSON(){
 
-        ArrayList<Product> allProducts = bookRepo.getAllProducts();
+        ArrayList<Product> allProducts = productRepo.getAllProducts();
 
         // création du json et conversion de la liste de livres
         String result = null;
@@ -45,13 +45,13 @@ public class ProductService {
     }
 
     /**
-     * Méthode retournant au format JSON les informations sur un livre recherché
-     * @param reference la référence du livre recherché
+     * Méthode retournant au format JSON les informations sur un produit recherché
+     * @param reference la référence du produit recherché
      * @return une chaîne de caractère contenant les informations au format JSON
      */
     public String getProductJSON(String reference ){
         String result = null;
-        Product myProduct = bookRepo.getProduct(reference);
+        Product myProduct = productRepo.getProduct(reference);
 
         // si le livre a été trouvé
         if( myProduct != null ) {
@@ -67,12 +67,30 @@ public class ProductService {
     }
 
     /**
-     * Méthode permettant de mettre à jours les informations d'un livre
-     * @param reference référence du livre à mettre à jours
-     * @param product les nouvelles infromations a été utiliser
-     * @return true si le livre a pu être mis à jours
+     * Méthode permettant de mettre à jours les informations d'un produit
+     * @param reference référence du produit à mettre à jours
+     * @param product les nouvelles informations a être utilisées
+     * @return true si le produit a pu être mis à jours
      */
     public boolean updateProduct(String reference, Product product) {
-        return bookRepo.updateProduct(reference, product.name, product.category, product.stock, product.unit, product.price);
+        return productRepo.updateProduct(reference, product.name, product.category, product.stock, product.unit, product.price);
+    }
+
+    /**
+     * Méthode permettant de créer un nouveau produit
+     * @param product le produit à créer
+     * @return true si le produit a été créé avec succès
+     */
+    public boolean createProduct(Product product) {
+        return productRepo.createProduct(product);
+    }
+
+    /**
+     * Méthode permettant de supprimer un produit
+     * @param reference la référence du produit à supprimer
+     * @return true si le produit a été supprimé avec succès
+     */
+    public boolean deleteProduct(String reference) {
+        return productRepo.deleteProduct(reference);
     }
 }

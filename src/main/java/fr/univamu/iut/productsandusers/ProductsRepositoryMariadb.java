@@ -26,6 +26,9 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
         dbConnection = DriverManager.getConnection( infoConnection, user, pwd ) ;
     }
 
+    /**
+     * Permet de fermer la connection à la bd
+     */
     @Override
     public void close() {
         try{
@@ -36,6 +39,11 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
         }
     }
 
+    /**
+     * permet de récupérer un produit à un identifiant donné
+     * @param reference identifiant du produit recherché
+     * @return le produit en question
+     */
     @Override
     public Product getProduct(String reference) {
 
@@ -70,6 +78,10 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
         return selectedProduct;
     }
 
+    /**
+     * permet de récupérer tous les produits
+     * @return la liste de tous les produits
+     */
     @Override
     public ArrayList<Product> getAllProducts() {
         ArrayList<Product> listProducts;
@@ -105,6 +117,16 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
         return listProducts;
     }
 
+    /**
+     *
+     * @param reference identifiant du produit à mettre à jours
+     * @param name nouveau nom du produit
+     * @param category nouvelle categorie pour le produit
+     * @param stock nouveau stock du produit
+     * @param unit nouvelle unité du produit
+     * @param price nouveau prix du produit
+     * @return true si la mise à jour se fait false sinon
+     */
     @Override
     public boolean updateProduct(String reference, String name, String category, int stock, String unit, float price) {
         String query = "UPDATE Product SET name=?, category=?, stock=?, unite=?, prix=?  where reference=?";
@@ -126,5 +148,52 @@ public class ProductsRepositoryMariadb implements ProductRepositoryInterface, Cl
         }
 
         return ( nbRowModified != 0 );
+    }
+
+    /**
+     * Méthode permettant de créer un nouveau produit
+     * @param product le produit à créer
+     * @return true si le produit a été créé avec succès, false sinon
+     */
+    @Override
+    public boolean createProduct(Product product) {
+        String query = "INSERT INTO Product (reference, name, category, stock, unite, prix) VALUES (?, ?, ?, ?, ?, ?)";
+        int nbRowInserted = 0;
+
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setString(1, product.getReference());
+            ps.setString(2, product.getName());
+            ps.setString(3, product.getCategory());
+            ps.setInt(4, product.getStock());
+            ps.setString(5, product.getUnit());
+            ps.setFloat(6, product.getPrice());
+
+            nbRowInserted = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return (nbRowInserted != 0);
+    }
+
+    /**
+     * Méthode permettant de supprimer un produit
+     * @param reference la référence du produit à supprimer
+     * @return true si le produit a été supprimé avec succès, false sinon
+     */
+    @Override
+    public boolean deleteProduct(String reference) {
+        String query = "DELETE FROM Product WHERE reference=?";
+        int nbRowDeleted = 0;
+
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setString(1, reference);
+
+            nbRowDeleted = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return (nbRowDeleted != 0);
     }
 }

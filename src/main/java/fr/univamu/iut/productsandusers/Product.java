@@ -1,28 +1,27 @@
 package fr.univamu.iut.productsandusers;
 
 /**
- * Classe représentant un livre
+ * Classe représentant un produit
  */
 public class Product {
 
     /**
-     * Référence du livre
+     * Référence du produit
      */
     protected String reference;
 
     /**
-     * titre du livre
+     * nom du produit
      */
     protected String name;
 
     /**
-     * Auteurs du livre
+     * stock du produit
      */
     protected String category;
 
     /**
-     * Statut du livre
-     * ('r' pour réservé, 'e' pour emprunté, et 'd' pour disponible)
+     * stock du produit
      */
     protected int stock;
 
@@ -43,23 +42,10 @@ public class Product {
     }
 
     /**
-     * Constructeur de livre
-     * @param reference référence du livre
-     * @param name titre du livre
-     * @param category auteurs du livre
-     */
-    public Product(String reference, String name, String category){
-        this.reference = reference;
-        this.name = name;
-        this.category = category;
-        this.stock = 0;
-    }
-
-    /**
-     * Constructeur de livre
-     * @param reference référence du livre
-     * @param name titre du livre
-     * @param category auteurs du livre
+     * Constructeur de produit
+     * @param reference référence du produit
+     * @param name nom du produit
+     * @param category auteurs du produit
      * @param unit unité du produit
      * @param price prix du produit
      */
@@ -73,32 +59,32 @@ public class Product {
     }
 
     /**
-     * Méthode permettant d'accéder à la réference du livre
-     * @return un chaîne de caractères avec la référence du livre
+     * Méthode permettant d'accéder à la réference du produit
+     * @return un chaîne de caractères avec la référence du produit
      */
     public String getReference() {
         return reference;
     }
 
     /**
-     * Méthode permettant d'accéder au titre du livre
-     * @return un chaîne de caractères avec le titre du livre
+     * Méthode permettant d'accéder au nom du produit
+     * @return un chaîne de caractères avec le nom du produit
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Méthode permettant d'accéder aux auteurs du livre
-     * @return un chaîne de caractères avec la liste des auteurs
+     * Méthode permettant d'accéder au catégorie du produit
+     * @return un chaîne de caractères avec la catégorie du produit
      */
     public String getCategory() {
         return category;
     }
 
     /**
-     * Méthode permettant d'accéder au statut du livre
-     * @return un caractère indiquant lestatu du livre ('r' pour réservé, 'e' pour emprunté, et 'd' pour disponible)
+     * Méthode permettant d'accéder au stock du produit
+     * @return une chaîne de caractère avec le stock du produit
      */
     public int getStock() {
         return stock;
@@ -121,7 +107,7 @@ public class Product {
     }
 
     /**
-     * Méthode permettant de modifier la référence du livre
+     * Méthode permettant de modifier la référence du produit
      * @param reference une chaîne de caractères avec la référence à utiliser
      */
     public void setReference(String reference) {
@@ -129,24 +115,24 @@ public class Product {
     }
 
     /**
-     * Méthode permettant de modifier le titre du livre
-     * @param name une chaîne de caractères avec le titre à utiliser
+     * Méthode permettant de modifier le titre du produit
+     * @param name une chaîne de caractères avec le nom à utiliser
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Méthode permettant de modifier les autheurs du livre
-     * @param category une chaîne de caractères avec la liste des auteurs
+     * Méthode permettant de modifier la catégorie du produit
+     * @param category une chaîne de caractères avec la catégorie du produit
      */
     public void setCategory(String category) {
         this.category = category;
     }
 
     /**
-     * Méthode permettant de modifier le statut du livre
-     * @param stock le caractère 'r' pour réservé, 'e' pour emprunté, ou 'd' pour disponible
+     * Méthode permettant de modifier le stock du produit
+     * @param stock le stock du produit
      */
     public void setStock(int stock) {
         this.stock = stock;

@@ -15,7 +15,7 @@ public class ProductApplication extends Application {
      * Méthode appelée par l'API CDI pour injecter la connection à la base de données au moment de la création
      * de la ressource
      * @return un objet implémentant l'interface BookRepositoryInterface utilisée
-     *          pour accéder aux données des livres, voire les modifier
+     *          pour accéder aux données des produits ou utilisateurs, voire les modifier
      */
     @Produces
     private ProductRepositoryInterface openDbConnection(){

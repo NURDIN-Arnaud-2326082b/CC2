@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class UserService {
 
     /**
-     * Objet permettant d'accéder au dépôt où sont stockées les informations sur les utilisateurs
+     * Objet permettant d'accéder au dépôt où sont stockées les informations sur les users
      */
     protected UserRepositoryInterface userRepo;
 
@@ -24,7 +24,7 @@ public class UserService {
     }
 
     /**
-     * Méthode retournant les informations sur les utilisateurs au format JSON
+     * Méthode retournant les informations sur les users au format JSON
      * @return une chaîne de caractère contenant les informations au format JSON
      */
     public String getAllUsersJSON(){
@@ -44,8 +44,8 @@ public class UserService {
     }
 
     /**
-     * Méthode retournant au format JSON les informations sur un utilisateur recherché
-     * @param id la référence de l'utilisateur recherché
+     * Méthode retournant au format JSON les informations sur un user recherché
+     * @param id la référence de l'user recherché
      * @return une chaîne de caractère contenant les informations au format JSON
      */
     public String getUserJSON(int id ){
@@ -66,27 +66,27 @@ public class UserService {
     }
 
     /**
-     * Méthode permettant de mettre à jour les informations d'un utilisateur
-     * @param id référence de l'utilisateur à mettre à jour
+     * Méthode permettant de mettre à jour les informations d'un user
+     * @param id id de l'user à mettre à jour
      * @param user les nouvelles informations à utiliser
-     * @return true si l'utilisateur a pu être mis à jour
+     * @return true si l'user a pu être mis à jour
      */
     public boolean updateUser(int id, User user) {
         return userRepo.updateUser(id, user.email, user.firstName, user.name, user.password, user.role.name());
     }
 
     /**
-     * Méthode permettant de créer un nouvel utilisateur
-     * @param user les informations de l'utilisateur à créer
+     * Méthode permettant de créer un nouvel user
+     * @param user les informations de l'user à créer
      */
     public void createUser(User user) {
         userRepo.createUser(user);
     }
 
     /**
-     * Méthode permettant de supprimer un utilisateur
-     * @param id référence de l'utilisateur à supprimer
-     * @return true si l'utilisateur a pu être supprimé
+     * Méthode permettant de supprimer un user
+     * @param id référence de l'user à supprimer
+     * @return true si l'user a pu être supprimé
      */
     public boolean deleteUser(int id) {
         return userRepo.deleteUser(id);
