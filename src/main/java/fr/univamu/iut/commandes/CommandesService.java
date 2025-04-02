@@ -20,6 +20,14 @@ public class CommandesService {
         this.commandesRepo = commandesRepo;
     }
 
+    public ArrayList<Commandes> getAllCommandes() {
+        return commandesRepo.getAllCommandes();
+    }
+
+    public Commandes getCommandeById(int id_commande) {
+        return commandesRepo.getCommande(id_commande);
+    }
+
     public String getAllCommandesJSON() {
         ArrayList<Commandes> allCommandes = commandesRepo.getAllCommandes();
         String result = null;
@@ -47,13 +55,25 @@ public class CommandesService {
     public boolean updateCommande(int id_commande, Commandes commande) {
         return commandesRepo.updateCommande(id_commande, commande.getPrix_total(), commande.getDate_retrait(), commande.getLocalisation_retrait(), commande.getStatut());
     }
+    
+    public boolean addCommande(Commandes commande) {
+        return commandesRepo.createCommande(commande);
+    }
 
     public boolean createCommande(Commandes commande) {
         return commandesRepo.createCommande(commande);
     }
 
+    public boolean removeCommande(int id_commande) {
+        return commandesRepo.deleteCommande(id_commande);
+    }
+
     public boolean deleteCommande(int id_commande) {
         return commandesRepo.deleteCommande(id_commande);
+    }
+
+    public ArrayList<Panier> getCommandeContenu(int id_commande) {
+        return commandesRepo.getPanierForCommande(id_commande);
     }
 
     public String getPanierForCommande(int id_commande) {
@@ -65,6 +85,22 @@ public class CommandesService {
             System.err.println(e.getMessage());
         }
         return result;
+    }
+    
+    public boolean addCommandeContient(CommandeContient commandeContient) {
+        return commandesRepo.addCommandeContient(commandeContient);
+    }
+    
+    public boolean updateCommandeContient(int idCommande, int idPanier, int quantite) {
+        return commandesRepo.updateCommandeContient(idCommande, idPanier, quantite);
+    }
+    
+    public boolean removeCommandeContient(int idCommande, int idPanier) {
+        return commandesRepo.removeCommandeContient(idCommande, idPanier);
+    }
+    
+    public double getCommandeTotal(int idCommande) {
+        return commandesRepo.getCommandeTotal(idCommande);
     }
 
     /**
@@ -94,5 +130,4 @@ public class CommandesService {
         }
         return result;
     }
-
 }

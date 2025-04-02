@@ -13,29 +13,68 @@ import jakarta.ws.rs.core.Application;
 @ApplicationPath("/api")
 public class CommandesApplication extends Application {
 
+    private static final String PANIER_REST_URL = "http://localhost:8080/panier-1.0-SNAPSHOT/api/panier";
+
     @Produces
     @MariaDB
-    private CommandesRepositoryInterface openDbConnection() {
+    @ApplicationScoped
+    public CommandesRepositoryInterface openDbConnection() {
         CommandesRepositoryMariadb db = null;
         try {
             db = new CommandesRepositoryMariadb("jdbc:mariadb://mysql-loeb.alwaysdata.net/loeb_commandes", "loeb", "aC.2c2pxkzr4*qu");
+            // Injection du client panier dans le repository
+            if (db != null) {
+                db.setPanierClient(createPanierClient());
+            }
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return db;
     }
 
-    private void closeDbConnection(@Disposes @MariaDB CommandesRepositoryInterface commandesRepo) {
-        commandesRepo.close();
-    }
-/**
- * Méthode appelée par l'API CDI pour injecter l'API Commandes au moment de la création de la ressource
- * @return une instance de l'API avec l'url à utiliser
- */
+
+    /**
+     * Produit l'URL de l'API panier.
+     *
+     * @return l'URL de l'API panier
+     */
     @Produces
-    private CommandesRepositoryInterface connectCommandesApi(){
-        return new CommandesRepositoryAPI("http://localhost:8080/book-1.0-SNAPSHOT/api/");
+    @PanierApiUrl
+    @ApplicationScoped
+    public String producePanierApiUrl() {
+        return System.getProperty("panier.api.url", PANIER_REST_URL);
     }
 
+    /**
+     * Crée une instance de PanierClientInterface.
+     *
+     * @return une instance de PanierClientInterface
+     */
+    @Produces
+    @ApplicationScoped
+    public PanierClientInterface createPanierClient() {
+        return new PanierClient(producePanierApiUrl());
+    }
 
+    /**
+     * Ferme la connexion à la base de données.
+     *
+     * @param commandesRepo l'instance de CommandesRepositoryInterface à fermer
+     */
+    public void closeDbConnection(@Disposes @MariaDB CommandesRepositoryInterface commandesRepo) {
+        if (commandesRepo != null) {
+            commandesRepo.close();
+        }
+    }
+
+    /**
+     * Ferme le client panier.
+     *
+     * @param panierClient l'instance de PanierClientInterface à fermer
+     */
+    public void closePanierClient(@Disposes PanierClientInterface panierClient) {
+        if (panierClient != null) {
+            panierClient.close();
+        }
+    }
 }
