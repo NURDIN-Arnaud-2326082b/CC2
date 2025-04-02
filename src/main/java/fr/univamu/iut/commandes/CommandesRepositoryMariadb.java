@@ -151,17 +151,17 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
     @Override
     public ArrayList<Panier> getPanierForCommande(int id_commande) {
         ArrayList<Panier> listPanier = new ArrayList<>();
-        String query = "SELECT * FROM CommandeContient WHERE id_commande=?";
+        String query = "SELECT * FROM Commandes_contient WHERE id_commande=?";
 
         try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
             ps.setInt(1, id_commande);
             ResultSet result = ps.executeQuery();
 
             while (result.next()) {
-                int id_panier = result.getInt("id_panier");
+                int IdPanier = result.getInt("IdPanier");
                 int quantite = result.getInt("quantite");
 
-                Panier currentPanier = new Panier(id_commande, id_panier, quantite);
+                Panier currentPanier = new Panier(id_commande, IdPanier, quantite);
                 listPanier.add(currentPanier);
             }
         } catch (SQLException e) {
@@ -173,7 +173,7 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
 
     @Override
     public boolean addCommandeContient(CommandeContient commandeContient) {
-        String query = "INSERT INTO CommandeContient (id_commande, id_panier, quantite) VALUES (?, ?, ?)";
+        String query = "INSERT INTO Commandes_contient (id_commande, IdPanier, quantite) VALUES (?, ?, ?)";
         int nbRowModified = 0;
         
         try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
@@ -192,7 +192,7 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
 
     @Override
     public boolean removeCommandeContient(int idCommande, int idPanier) {
-        String query = "DELETE FROM CommandeContient WHERE id_commande=? AND id_panier=?";
+        String query = "DELETE FROM Commandes_contient WHERE id_commande=? AND IdPanier=?";
         int nbRowModified = 0;
         
         try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
@@ -210,7 +210,7 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
 
     @Override
     public boolean updateCommandeContient(int idCommande, int idPanier, int quantite) {
-        String query = "UPDATE CommandeContient SET quantite=? WHERE id_commande=? AND id_panier=?";
+        String query = "UPDATE Commandes_contient SET quantite=? WHERE id_commande=? AND IdPanier=?";
         int nbRowModified = 0;
         
         try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
@@ -236,10 +236,10 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
 
             if (panierClient != null) {
                 for (Panier item : contenuCommande) {
-                    int idPanier = item.getId_panier();
+                    int IdPanier = item.getId_panier();
                     int quantite = item.getQuantite();
 
-                    double panierPrix = panierClient.getPanierTotal(String.valueOf(idPanier));
+                    double panierPrix = panierClient.getPanierTotal(String.valueOf(IdPanier));
                     total += panierPrix * quantite;
                 }
             } else {
@@ -253,3 +253,4 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
         return total;
     }
 }
+

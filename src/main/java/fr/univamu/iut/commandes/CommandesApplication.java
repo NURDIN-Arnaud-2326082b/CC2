@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.Application;
 @ApplicationPath("/api")
 public class CommandesApplication extends Application {
 
-    private static final String PANIER_REST_URL = "http://localhost:8080/panier-1.0-SNAPSHOT/api/panier";
+    private static final String PANIER_REST_URL = "http://localhost:9080/Panier-1.0-SNAPSHOT/api/Panier";
 
     @Produces
     @MariaDB

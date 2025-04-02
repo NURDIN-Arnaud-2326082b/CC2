@@ -187,6 +187,20 @@ public class CommandesResource {
     }
 
     /**
+     * Récupère le prix d'une commande par son identifiant.
+     *
+     * @param id l'identifiant de la commande
+     * @return une réponse contenant le prix de la commande
+     */
+    @GET
+    @Path("{id}/prix")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCommandePrix(@PathParam("id") int id) {
+        double prix = service.getCommandeTotal(id);
+        return Response.ok(prix).build();
+    }
+
+    /**
      * Endpoint permettant d'enregistrer une commande
      * 
      * @param id identifiant de la commande
@@ -206,3 +220,4 @@ public class CommandesResource {
         }
     }
 }
+

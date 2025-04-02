@@ -25,7 +25,7 @@ public class PanierClient implements PanierClientInterface {
      * Constructeur par défaut.
      */
     public PanierClient() {
-        this(System.getProperty("panier.api.url", "http://localhost:8080/panier-1.0-SNAPSHOT/api/panier"));
+        this(System.getProperty("panier.api.url", "http://localhost:9080/Panier-1.0-SNAPSHOT/api/Panier"));
     }
     
     /**
@@ -64,7 +64,28 @@ public class PanierClient implements PanierClientInterface {
      * @return le prix total du panier
      */
     private double extractPrixTotal(Object panier) {
-
+        try {
+            // Convertir l'objet en Map pour accéder aux propriétés
+            if (panier instanceof java.util.Map) {
+                java.util.Map<?, ?> panierMap = (java.util.Map<?, ?>) panier;
+                
+                // Essayer d'extraire le prix du panier
+                if (panierMap.containsKey("prixTotal")) {
+                    Object prixObj = panierMap.get("prixTotal");
+                    if (prixObj instanceof Number) {
+                        return ((Number) prixObj).doubleValue();
+                    }
+                } else if (panierMap.containsKey("prix_total")) {
+                    Object prixObj = panierMap.get("prix_total");
+                    if (prixObj instanceof Number) {
+                        return ((Number) prixObj).doubleValue();
+                    }
+                }
+            }
+            System.err.println("Format de panier non reconnu: " + panier);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de l'extraction du prix: " + e.getMessage());
+        }
         return 0.0;
     }
     
