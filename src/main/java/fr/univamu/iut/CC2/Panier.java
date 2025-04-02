@@ -23,12 +23,13 @@ public class Panier {
     /**
      * identifiant du client
      */
-    protected int IdClient;
+    protected int idClient;
 
     /**
      * Constructeur par défaut
      */
-    public Panier(String nomArticle, int nbreArticle, int idPanier){
+    public Panier(String nomArticle, int nbreArticle, int idPanier, int idClient) {
+
     }
 
     /**
@@ -36,13 +37,13 @@ public class Panier {
      * @param IdPanier identifiant du panier
      * @param nbreArticle nombre d'article dans le panier
      * @param nomArticle nom de l'article
-     * @param IdClient identifiant du client
+     * @param idClient identifiant du client
      */
-    public Panier(int IdPanier, int nbreArticle, String nomArticle,int IdClient){
+    public Panier(int IdPanier, int nbreArticle, String nomArticle,int idClient){
         this.IdPanier = IdPanier;
         this.nbreArticle = nbreArticle;
         this.nomArticle = nomArticle;
-        this.IdClient = IdClient;
+        this.idClient = idClient;
     }
 
     /**
@@ -73,8 +74,8 @@ public class Panier {
      * Méthode permettant d'accéder à l'identifiant du client
      * @return un caractère indiquant l'id du client
      */
-    public int getIdClient() {
-        return IdClient;
+    public int getidClient() {
+        return idClient;
     }
 
     /**
@@ -103,10 +104,10 @@ public class Panier {
 
     /**
      * Méthode permettant de modifier l'identifiant du client
-     * @param IdClient le caractère à utiliser
+     * @param idClient le caractère à utiliser
      */
-    public void setIdClient(int IdClient) {
-        this.IdClient = IdClient;
+    public void setidClient(int idClient) {
+        this.idClient = idClient;
     }
 
     @Override
@@ -115,7 +116,7 @@ public class Panier {
                 "IdPanier='" + IdPanier + '\'' +
                 ", nbreArticle='" + nbreArticle + '\'' +
                 ", nomArticle='" + nomArticle + '\'' +
-                ", IdClient=" + IdClient +
+                ", idClient=" + idClient +
                 '}';
     }
 }
