@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>fr.univamu.iut.commandes</OriginalElement>
+  <nodes>
+    <node x="206.87307152875155" y="593.5">fr.univamu.iut.commandes.CommandesService</node>
+    <node x="394.8253856942497" y="1235.2465001949568">fr.univamu.iut.commandes.Panier</node>
+    <node x="367.4565217391305" y="1591.9930003899133">fr.univamu.iut.commandes.CommandeContient</node>
+    <node x="-158.54569294605813" y="1623.5">fr.univamu.iut.commandes.CommandesRepositoryMariadb</node>
+    <node x="-204.9361851332401" y="1541.0">fr.univamu.iut.commandes.PanierApiUrl</node>
+    <node x="-681.5062240663901" y="724.3106591865359">fr.univamu.iut.commandes.CommandesApplication</node>
+    <node x="-237.0" y="930.5">fr.univamu.iut.commandes.PanierClient</node>
+    <node x="-249.03436185133228" y="490.5070126227208">fr.univamu.iut.commandes.Commandes</node>
+    <node x="-734.4844149377593" y="1246.323734439834">fr.univamu.iut.commandes.CommandesResource</node>
+    <node x="-622.5062240663901" y="1021.6078838174274">fr.univamu.iut.commandes.PanierClientInterface</node>
+    <node x="138.5" y="1111.5">fr.univamu.iut.commandes.MariaDB</node>
+    <node x="-145.0" y="1181.5">fr.univamu.iut.commandes.CommandesRepositoryInterface</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="fr.univamu.iut.commandes.PanierClient" target="fr.univamu.iut.commandes.PanierClientInterface" relationship="REALIZATION">
+      <point x="-146.0" y="54.107883817427364" />
+      <point x="146.0" y="0.0" />
+    </edge>
+    <edge source="fr.univamu.iut.commandes.CommandesRepositoryMariadb" target="fr.univamu.iut.commandes.CommandesRepositoryInterface" relationship="REALIZATION">
+      <point x="13.545692946058125" y="-202.5" />
+      <point x="0.0" y="152.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.5612405541561714" showDependencies="false" x="252.30428611500702" y="1236.710159887798" />
+  <SelectedNodes>
+    <node>fr.univamu.iut.commandes.CommandesService</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
