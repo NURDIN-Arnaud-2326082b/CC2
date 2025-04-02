@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/amuhome/l23004062/IdeaProjects/CC2/src/main/java</OriginalElement>
+  <nodes>
+    <node x="196.5" y="578.0">fr.univamu.iut.commandes.CommandesService</node>
+    <node x="197.5" y="786.0">fr.univamu.iut.commandes.CommandesRepositoryMariadb</node>
+    <node x="231.0" y="330.5">fr.univamu.iut.commandes.CommandesApplication</node>
+    <node x="-137.0" y="798.0">fr.univamu.iut.commandes.CommandesRepositoryAPI</node>
+    <node x="-141.5" y="197.5">fr.univamu.iut.commandes.Commandes</node>
+    <node x="-70.0" y="-14.0">fr.univamu.iut.commandes.CommandesResource</node>
+    <node x="-148.5" y="128.0">fr.univamu.iut.commandes.MariaDB</node>
+    <node x="-141.0" y="590.5">fr.univamu.iut.commandes.CommandesRepositoryInterface</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="fr.univamu.iut.commandes.CommandesRepositoryMariadb" target="fr.univamu.iut.commandes.CommandesRepositoryInterface" relationship="REALIZATION">
+      <point x="-191.5" y="0.0" />
+      <point x="176.0" y="842.0" />
+      <point x="176.0" y="780.5" />
+      <point x="9.0" y="780.5" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="fr.univamu.iut.commandes.CommandesRepositoryAPI" target="fr.univamu.iut.commandes.CommandesRepositoryInterface" relationship="REALIZATION">
+      <point x="146.0" y="0.0" />
+      <point x="176.0" y="842.0" />
+      <point x="176.0" y="780.5" />
+      <point x="9.0" y="780.5" />
+      <point x="0.0" y="31.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.7757510729613734" showDependencies="false" x="359.30152143845294" y="545.1403872752417" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
