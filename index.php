@@ -1,13 +1,13 @@
 <?php
 
 // charge et initialise les bibliothèques globales
-include_once 'data/AnnonceSqlAccess.php';
+include_once 'data/CommandesSqlAccess.php';
 include_once 'data/UserSqlAccess.php';
 
 include_once 'control/Controllers.php';
 include_once 'control/Presenter.php';
 
-include_once 'service/AnnoncesChecking.php';
+include_once 'service/CommandesChecking.php';
 include_once 'service/UserChecking.php';
 include_once 'service/UserCreation.php';
 
@@ -20,23 +20,23 @@ include_once 'gui/ViewCreate.php';
 
 use control\Controllers;
 use control\Presenter;
-use data\AnnonceSqlAccess;
+use data\CommandesSqlAccess;
 use data\UserSqlAccess;
 use gui\Layout;
-use gui\ViewAnnonces;
+use gui\ViewCommandes;
 use gui\ViewCreate;
 use gui\ViewError;
 use gui\ViewLogin;
 use gui\ViewPanier;
-use service\AnnoncesChecking;
+use service\CommandesChecking;
 use service\UserChecking;
 use service\UserCreation;
 
 $data = null;
 try {
-    $bd = new PDO('mysql:host=mysql-vernagut.alwaysdata.net;dbname=vernagut', 'vernagut_cooperative_agricole', 'cooperative_agricole');
+    $bd = new PDO('mysql:host=mysql-vernagut.alwaysdata.net;dbname=vernagut_cooperative_agricole', 'vernagut_cc2', 'cooperative_agricole');
     // construction du modèle
-    $dataAnnonces = new AnnonceSqlAccess($bd);
+    $dataCommandes = new CommandesSqlAccess($bd);
     $dataUsers = new UserSqlAccess($bd);
 
 } catch (PDOException $e) {
@@ -47,8 +47,8 @@ try {
 // initialisation du controller
 $controller = new Controllers();
 
-// intialisation du cas d'utilisation service\AnnoncesChecking
-$annoncesCheck = new AnnoncesChecking() ;
+// intialisation du cas d'utilisation service\CommandesChecking
+$CommandesCheck = new CommandesChecking() ;
 
 // intialisation du cas d'utilisation service\UserChecking
 $userCheck = new UserChecking() ;
@@ -57,7 +57,7 @@ $userCheck = new UserChecking() ;
 $userCreation = new UserCreation() ;
 
 // intialisation du presenter avec accès aux données de AnnoncesCheking
-$presenter = new Presenter($annoncesCheck);
+$presenter = new Presenter($CommandesCheck);
 
 // chemin de l'URL demandée au navigateur
 // (p.ex. /index.php)
@@ -106,21 +106,21 @@ elseif ( '/index.php/create' == $uri ) {
 elseif ( '/index.php/annonces' == $uri ){
     // affichage de toutes les annonces
 
-    $controller->annoncesAction($dataAnnonces, $annoncesCheck);
+    $controller->annoncesAction($dataCommandes, $CommandesCheck);
 
     $layout = new Layout("gui/layout.html" );
-    $vueAnnonces= new ViewAnnonces( $layout,  $_SESSION['login'], $presenter);
+    $vueCommandes= new ViewCommandes( $layout,  $_SESSION['login'], $presenter);
 
-    $vueAnnonces->display();
+    $vueCommandes->display();
 }
-elseif ( '/index.php/post' == $uri
+elseif ( '/index.php/panier' == $uri
     && isset($_GET['id'])) {
     // Affichage d'une annonce
 
-    $controller->postAction($_GET['id'], $dataAnnonces, $annoncesCheck);
+    $controller->postAction($_GET['id'], $dataCommandes, $CommandesCheck);
 
     $layout = new Layout("gui/layout.html" );
-    $vuePost= new ViewPost( $layout,  $_SESSION['login'], $presenter );
+    $vuePost= new ViewPanier( $layout,  $_SESSION['login'], $presenter );
 
     $vuePost->display();
 }

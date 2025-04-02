@@ -1,7 +1,7 @@
 <?php
 
 namespace service;
-class AnnoncesChecking
+class CommandesChecking
 {
     protected $annoncesTxt;
 

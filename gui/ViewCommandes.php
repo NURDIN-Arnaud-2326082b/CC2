@@ -3,7 +3,7 @@ namespace gui;
 
 include_once "ViewLogged.php";
 
-class ViewAnnonces extends ViewLogged
+class ViewCommandes extends ViewLogged
 {
     public function __construct($layout, $login, $presenter)
     {

@@ -3,12 +3,12 @@
 namespace data;
 
 use service\AnnonceAccessInterface;
-include_once "service/AnnoncesAccessInterface.php";
+include_once "service/CommandesAccessInterface.php";
 
 use domain\panier;
 include_once "domain/panier.php";
 
-class AnnonceSqlAccess implements AnnonceAccessInterface
+class CommandesSqlAccess implements AnnonceAccessInterface
 {
     protected $dataAccess = null;
 
