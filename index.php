@@ -13,8 +13,8 @@ include_once 'service/UserCreation.php';
 
 include_once 'gui/layout.php';
 include_once 'gui/ViewLogin.php';
-include_once 'gui/ViewAnnonces.php';
-include_once 'gui/ViewPost.php';
+include_once 'gui/ViewCommandes.php';
+include_once 'gui/ViewPanier.php';
 include_once 'gui/ViewError.php';
 include_once 'gui/ViewCreate.php';
 
@@ -27,7 +27,7 @@ use gui\ViewAnnonces;
 use gui\ViewCreate;
 use gui\ViewError;
 use gui\ViewLogin;
-use gui\ViewPost;
+use gui\ViewPanier;
 use service\AnnoncesChecking;
 use service\UserChecking;
 use service\UserCreation;
