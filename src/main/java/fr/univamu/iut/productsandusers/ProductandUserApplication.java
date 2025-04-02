@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/api")
 @ApplicationScoped
-public class ProductApplication extends Application {
+public class ProductandUserApplication extends Application {
 
     /**
      * Méthode appelée par l'API CDI pour injecter la connection à la base de données au moment de la création
