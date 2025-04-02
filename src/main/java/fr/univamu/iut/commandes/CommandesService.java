@@ -56,6 +56,16 @@ public class CommandesService {
         return commandesRepo.deleteCommande(id_commande);
     }
 
+    public String getPanierForCommande(int id_commande) {
+        ArrayList<Panier> panier = commandesRepo.getPanierForCommande(id_commande);
+        String result = null;
+        try (Jsonb jsonb = JsonbBuilder.create()) {
+            result = jsonb.toJson(panier);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return result;
+    }
 
     /**
      * Méthode permettant d'enregistrer une commande
@@ -85,10 +95,4 @@ public class CommandesService {
         return result;
     }
 
-
-
 }
-
-
-
-

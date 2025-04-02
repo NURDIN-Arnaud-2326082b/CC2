@@ -143,4 +143,9 @@ public class CommandesRepositoryAPI implements CommandesRepositoryInterface {
 
         return result;
     }
+
+    @Override
+    public ArrayList<Panier> getPanierForCommande(int id_commande) {
+        return null;
+    }
 }

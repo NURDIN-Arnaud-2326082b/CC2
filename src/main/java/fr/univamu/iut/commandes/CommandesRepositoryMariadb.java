@@ -131,4 +131,25 @@ public class CommandesRepositoryMariadb implements CommandesRepositoryInterface,
 
         return (nbRowModified != 0);
     }
+
+    public ArrayList<Panier> getPanierForCommande(int id_commande) {
+        ArrayList<Panier> listPanier = new ArrayList<>();
+        String query = "SELECT * FROM Panier WHERE id_commande=?";
+
+        try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
+            ps.setInt(1, id_commande);
+            ResultSet result = ps.executeQuery();
+
+            while (result.next()) {
+                int id_panier = result.getInt("id_panier");
+                int quantite = result.getInt("quantite");
+
+                Panier currentPanier = new Panier(id_commande, id_panier, quantite);
+                listPanier.add(currentPanier);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listPanier;
+    }
 }

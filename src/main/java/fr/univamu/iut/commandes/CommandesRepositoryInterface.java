@@ -17,4 +17,6 @@ public interface CommandesRepositoryInterface {
     boolean createCommande(Commandes commande);
 
     boolean deleteCommande(int id_commande);
+
+    ArrayList<Panier> getPanierForCommande(int id_commande);
 }

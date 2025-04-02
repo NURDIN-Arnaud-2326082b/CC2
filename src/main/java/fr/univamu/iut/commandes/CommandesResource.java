@@ -33,6 +33,13 @@ public class CommandesResource {
         return result;
     }
 
+    @GET
+    @Path("{id_commande}/panier")
+    @Produces("application/json")
+    public String getPanierForCommande(@PathParam("id_commande") int id_commande) {
+        return service.getPanierForCommande(id_commande);
+    }
+
     @PUT
     @Path("{id_commande}")
     @Consumes("application/json")

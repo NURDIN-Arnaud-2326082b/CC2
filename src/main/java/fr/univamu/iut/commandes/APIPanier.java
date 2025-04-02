@@ -8,7 +8,7 @@ import java.net.URL;
 public class APIPanier {
     public static void main(String[] args) {
         try {
-            URL url = new URL("http://localhost:8080/panier-1.0-SNAPSHOT/api/panier"); // URL de l'API de panier
+            URL url = new URL("http://localhost:8080/book-1.0-SNAPSHOT/api/panier"); // URL de l'API de panier
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
