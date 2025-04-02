@@ -28,7 +28,7 @@ public class Panier {
     /**
      * Constructeur par défaut
      */
-    public Panier(){
+    public Panier(String nomArticle, int nbreArticle, int idPanier){
     }
 
     /**

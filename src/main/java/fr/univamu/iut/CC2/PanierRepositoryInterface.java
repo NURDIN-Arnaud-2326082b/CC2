@@ -12,6 +12,7 @@ public interface PanierRepositoryInterface {
      */
     public void close();
 
+
     /**
      * Méthode retournant le panier dont la référence est passée en paramètre
      * @param IdPanier identifiant du panier recherché

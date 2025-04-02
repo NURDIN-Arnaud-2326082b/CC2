@@ -29,7 +29,14 @@ public class PanierApplication extends Application {
         }
         return db;
     }
-
+    /**
+     * Méthode appelée par l'API CDI pour injecter l'API Book au moment de la création de la ressource
+     * @return une instance de l'API avec l'url à utiliser
+     */
+    @Produces
+    private PanierRepositoryInterface connectBookApi(){
+        return new PanierRepositoryAPI("http://localhost:8080/Panier-1.0-SNAPSHOT/api/");
+    }
     /**
      * Méthode permettant de fermer la connexion à la base de données lorsque l'application est arrêtée
      * @param panierRepo la connexion à la base de données instanciée dans la méthode @openDbConnection
