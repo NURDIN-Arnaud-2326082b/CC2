@@ -64,7 +64,7 @@ public class PanierClient implements PanierClientInterface {
      * @return le prix total du panier
      */
     private double extractPrixTotal(Object panier) {
-        // Implémentation simplifiée, à adapter selon la structure réelle des objets Panier
+
         return 0.0;
     }
     
