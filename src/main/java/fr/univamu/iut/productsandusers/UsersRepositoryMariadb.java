@@ -41,7 +41,7 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
 
         User selectedUser = null;
 
-        String query = "SELECT * FROM User WHERE id=?";
+        String query = "SELECT * FROM User WHERE idClient=?";
 
         // construction et exécution d'une requête préparée
         try ( PreparedStatement ps = dbConnection.prepareStatement(query) ){
@@ -85,7 +85,7 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
             // récupération du premier (et seul) tuple résultat
             while ( result.next() )
             {
-                int id = result.getInt("id");
+                int id = result.getInt("idClient");
                 String email = result.getString("email");
                 String firstName = result.getString("firstName");
                 String name = result.getString("name");
@@ -105,7 +105,7 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
 
     @Override
     public boolean updateUser(int id, String email, String firstName, String name, String password, String role) {
-        String query = "UPDATE User SET email=?, firstName=?, name=?, password=?, role=? where id=?";
+        String query = "UPDATE User SET email=?, firstName=?, name=?, password=?, role=? where idClient=?";
         int nbRowModified = 0;
 
         // construction et exécution d'une requête préparée
@@ -128,15 +128,14 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
 
     @Override
     public void createUser(User user) {
-        String query = "INSERT INTO User (id, email, firstName, name, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO User (email, firstName, name, password, role) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
-            ps.setInt(1, user.getId());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getFirstName());
-            ps.setString(4, user.getName());
-            ps.setString(5, user.getPassword());
-            ps.setString(6, user.getRole().name());
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getFirstName());
+            ps.setString(3, user.getName());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, user.getRole().name());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -146,7 +145,7 @@ public class UsersRepositoryMariadb implements UserRepositoryInterface, Closeabl
 
     @Override
     public boolean deleteUser(int id) {
-        String query = "DELETE FROM User WHERE id=?";
+        String query = "DELETE FROM User WHERE idClient=?";
         int nbRowModified = 0;
 
         try (PreparedStatement ps = dbConnection.prepareStatement(query)) {
