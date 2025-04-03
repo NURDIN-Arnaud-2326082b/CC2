@@ -11,6 +11,6 @@ class ViewCommandes extends ViewLogged
 
         $this->title= 'Exemple Commandes Basic PHP: Commandes';
 
-        $this->content = $presenter->getAllAnnoncesHTML();
+        $this->content = $presenter->getAllCommandesHTML();
     }
 }

@@ -23,4 +23,36 @@ class Presenter
         }
         return $content;
     }
+
+    /**
+     * Store the orders list
+     * @param array $orders List of orders
+     */
+    public function setOrders($orders) {
+        $this->orders = $orders;
+    }
+
+    /**
+     * Get the orders list
+     * @return array List of orders
+     */
+    public function getOrders() {
+        return isset($this->orders) ? $this->orders : [];
+    }
+
+    /**
+     * Store the order detail
+     * @param array $orderDetail Order details
+     */
+    public function setOrderDetail($orderDetail) {
+        $this->orderDetail = $orderDetail;
+    }
+
+    /**
+     * Get the order detail
+     * @return array Order details
+     */
+    public function getOrderDetail() {
+        return isset($this->orderDetail) ? $this->orderDetail : null;
+    }
 }

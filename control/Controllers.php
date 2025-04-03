@@ -4,6 +4,22 @@ namespace control;
 class Controllers
 {
 
+    public function ordersListAction($login) {
+        $orders = $this->ordersCheck->getUserOrders($login);
+        $this->presenter->setOrders($orders);
+    }
+
+    public function orderDetailAction($orderId) {
+        $order = $this->ordersCheck->getOrderById($orderId);
+        $this->presenter->setOrderDetail($order);
+    }
+
+    public function paniersListAction($data, $commandesCheck) {
+        // Récupérer tous les produits/paniers de l'utilisateur connecté
+        $paniers = $commandesCheck->getCommandes($data);
+        $this->presenter->setPaniers($paniers);
+    }
+
     public function authenticateAction($userCreation, $userCheck, $dataUsers)
     {
 
@@ -41,4 +57,55 @@ class Controllers
 
         }
     }
+
+    private $ordersCheck;
+
+    /**
+     * Set the orders checking service
+     * @param \service\OrdersChecking $ordersCheck The orders checking service
+     * @return void
+     */
+    public function setOrdersChecking($ordersCheck) {
+        $this->ordersCheck = $ordersCheck;
+    }
+
+    /**
+     * @var \control\Presenter
+     */
+    private $presenter;
+
+    /**
+     * Set the presenter
+     * @param \control\Presenter $presenter The presenter
+     * @return void
+     */
+    public function setPresenter($presenter) {
+        $this->presenter = $presenter;
+    }
+
+    /**
+     * Handle commands/products display
+     * @param mixed $dataCommandes The data source
+     * @param \service\CommandesChecking $commandesCheck The commandes checking service
+     * @return void
+     */
+    public function commandesAction($dataCommandes, $commandesCheck) {
+        // Get all commands/products
+        $commandes = $commandesCheck->getCommandes($dataCommandes);
+        $this->presenter->setCommandes($commandes);
+    }
+
+    /**
+     * Handle displaying a specific item from the cart
+     * @param int $id The item ID
+     * @param mixed $dataCommandes The data source
+     * @param \service\CommandesChecking $commandesCheck The commandes checking service
+     * @return void
+     */
+    public function panierAction($id, $dataCommandes, $commandesCheck) {
+        // Get specific item from the cart
+        $panier = $commandesCheck->getPanier($id, $dataCommandes);
+        $this->presenter->setPanier($panier);
+    }
+
 }

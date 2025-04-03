@@ -1,29 +1,45 @@
 <?php
 
 namespace service;
+
 class CommandesChecking
 {
-    protected $annoncesTxt;
+    private $productsApi;
 
-    public function getAnnoncesTxt()
-    {
-        return $this->annoncesTxt;
+    /**
+     * Constructeur avec injection du client API produits
+     * @param ProductsApiInterface|null $productsApi Client API produits
+     */
+    public function __construct(ProductsApiInterface $productsApi = null) {
+        $this->productsApi = $productsApi;
     }
 
-    public function getAllAnnonces($data)
-    {
-        $annonces = $data->getAllAnnonces();
-
-        $this->annoncesTxt = array();
-        foreach ($annonces as $post) {
-            $this->annoncesTxt[] = ['id' => $post->getId(), 'title' => $post->getTitle(), 'body' => $post->getBody(), 'date' => $post->getDate()];
+    /**
+     * Récupère tous les produits
+     * @param mixed $data Accès aux données (pour compatibilité)
+     * @return array Liste des produits
+     */
+    public function getCommandes($data = null) {
+        if ($this->productsApi) {
+            return $this->productsApi->getAllProducts();
         }
+
+        // Fallback à la méthode traditionnelle
+        return $data->getCommandes();
     }
 
-    public function getPost($id, $data)
-    {
-        $post = $data->getPost($id);
+    /**
+     * Récupère un produit spécifique
+     * @param int $id Identifiant du produit
+     * @param mixed $data Accès aux données (pour compatibilité)
+     * @return array|null Données du produit
+     */
+    public function getCommandeById($id, $data = null) {
+        if ($this->productsApi) {
+            return $this->productsApi->getProductById($id);
+        }
 
-        $this->annoncesTxt[] = array('id' => $post->getId(), 'title' => $post->getTitle(), 'body' => $post->getBody(), 'date' => $post->getDate());
+        // Fallback à la méthode traditionnelle
+        return $data->getCommandeById($id);
     }
 }

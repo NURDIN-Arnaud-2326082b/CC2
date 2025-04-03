@@ -1,8 +1,6 @@
 <?php
 
 // charge et initialise les bibliothèques globales
-include_once 'data/CommandesSqlAccess.php';
-include_once 'data/UserSqlAccess.php';
 
 include_once 'control/Controllers.php';
 include_once 'control/Presenter.php';
@@ -10,6 +8,13 @@ include_once 'control/Presenter.php';
 include_once 'service/CommandesChecking.php';
 include_once 'service/UserChecking.php';
 include_once 'service/UserCreation.php';
+include_once 'service/AuthApiInterface.php';
+include_once 'service/AuthApiClient.php';
+include_once 'service/ProductsApiInterface.php';
+include_once 'service/ProductsApiClient.php';
+include_once 'service/OrdersApiInterface.php';
+include_once 'service/OrdersApiClient.php';
+include_once 'service/OrdersChecking.php';
 
 include_once 'gui/layout.php';
 include_once 'gui/ViewLogin.php';
@@ -17,47 +22,50 @@ include_once 'gui/ViewCommandes.php';
 include_once 'gui/ViewPanier.php';
 include_once 'gui/ViewError.php';
 include_once 'gui/ViewCreate.php';
+include_once 'gui/ViewOrders.php';
+include_once 'gui/ViewOrderDetail.php';
 
 use control\Controllers;
 use control\Presenter;
-use data\CommandesSqlAccess;
-use data\UserSqlAccess;
 use gui\Layout;
 use gui\ViewCommandes;
 use gui\ViewCreate;
 use gui\ViewError;
 use gui\ViewLogin;
+use gui\ViewOrderDetail;
+use gui\ViewOrders;
 use gui\ViewPanier;
 use service\CommandesChecking;
 use service\UserChecking;
 use service\UserCreation;
 
-$data = null;
-try {
-    $bd = new PDO('mysql:host=mysql-vernagut.alwaysdata.net;dbname=vernagut_cooperative_agricole', 'vernagut_cc2', 'cooperative_agricole');
-    // construction du modèle
-    $dataCommandes = new CommandesSqlAccess($bd);
-    $dataUsers = new UserSqlAccess($bd);
-
-} catch (PDOException $e) {
-    print "Erreur de connexion !: " . $e->getMessage() . "<br/>";
-    die();
-}
+$dataUsers = null;
+$dataCommandes = null;
 
 // initialisation du controller
 $controller = new Controllers();
 
-// intialisation du cas d'utilisation service\CommandesChecking
-$CommandesCheck = new CommandesChecking() ;
 
-// intialisation du cas d'utilisation service\UserChecking
-$userCheck = new UserChecking() ;
+
+$ordersApiClient = new service\OrdersApiClient('');
+$ordersCheck = new service\OrdersChecking($ordersApiClient);
+
+$productsApiClient = new service\ProductsApiClient('');
+$CommandesCheck = new CommandesChecking($productsApiClient);
+$controller->setOrdersChecking($ordersCheck);
+
+// Configuration de l'API d'authentification
+$authApiClient = new service\AuthApiClient('');
+
+// intialisation du cas d'utilisation service\UserChecking avec l'API
+$userCheck = new UserChecking($authApiClient);
 
 // intialisation du cas d'utilisation service\UserCreation
 $userCreation = new UserCreation() ;
 
 // intialisation du presenter avec accès aux données de AnnoncesCheking
 $presenter = new Presenter($CommandesCheck);
+$controller->setPresenter($presenter);
 
 // chemin de l'URL demandée au navigateur
 // (p.ex. /index.php)
@@ -72,6 +80,11 @@ session_start();
 if ( '/' != $uri and '/index.php' != $uri and '/index.php/logout' != $uri  and '/index.php/create' != $uri){
 
     $error = $controller->authenticateAction($userCreation, $userCheck, $dataUsers);
+    if ($error == null) {
+        // Authentification réussie, redirection vers la page des paniers
+        header('Location: /index.php/panier');
+        exit;
+    }
 
     if( $error != null )
     {
@@ -106,23 +119,28 @@ elseif ( '/index.php/create' == $uri ) {
 elseif ( '/index.php/annonces' == $uri ){
     // affichage de toutes les annonces
 
-    $controller->annoncesAction($dataCommandes, $CommandesCheck);
+    $controller->commandesAction($dataCommandes, $CommandesCheck);
 
     $layout = new Layout("gui/layout.html" );
     $vueCommandes= new ViewCommandes( $layout,  $_SESSION['login'], $presenter);
 
     $vueCommandes->display();
 }
-elseif ( '/index.php/panier' == $uri
-    && isset($_GET['id'])) {
-    // Affichage d'une annonce
+elseif (strpos($uri, '/index.php/panier') === 0) {
+    // Affichage du panier
 
-    $controller->postAction($_GET['id'], $dataCommandes, $CommandesCheck);
+    if (isset($_GET['id'])) {
+        // Affichage d'un élément spécifique du panier
+        $controller->panierAction($_GET['id'], $dataCommandes, $CommandesCheck);
+    } else {
+        // Affichage de tous les éléments du panier
+        $controller->paniersListAction($dataCommandes, $CommandesCheck);
+    }
 
-    $layout = new Layout("gui/layout.html" );
-    $vuePost= new ViewPanier( $layout,  $_SESSION['login'], $presenter );
+    $layout = new Layout("gui/layout.html");
+    $vuePanier = new ViewPanier($layout, $_SESSION['login'], $presenter);
 
-    $vuePost->display();
+    $vuePanier->display();
 }
 elseif ( '/index.php/error' == $uri ){
     // Affichage d'un message d'erreur
@@ -132,9 +150,32 @@ elseif ( '/index.php/error' == $uri ){
 
     $vueError->display();
 }
+elseif ( '/index.php/orders' == $uri ){
+    // Display all orders for the user
+    $controller->ordersListAction($_SESSION['login']);
+
+    $layout = new Layout("gui/layout.html");
+    $vueOrders = new ViewOrders($layout, $_SESSION['login'], $presenter);
+
+    $vueOrders->display();
+}
+elseif ( strpos($uri, '/index.php/order') === 0 ){
+    // Display specific order details
+    if (isset($_GET['id'])) {
+        $controller->orderDetailAction($_GET['id']);
+
+        $layout = new Layout("gui/layout.html");
+        $vueOrderDetail = new ViewOrderDetail($layout, $_SESSION['login'], $presenter);
+
+        $vueOrderDetail->display();
+    } else {
+        header('Location: /index.php/orders');
+        exit;
+    }
+}
 else {
     header('Status: 404 Not Found');
-    echo '<html><body><h1>My Page NotFound</h1></body></html>';
+    echo '<html lang="fr"><body><h1>My Page NotFound</h1></body></html>';
 }
 
-?>
+
